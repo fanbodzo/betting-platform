@@ -1,0 +1,49 @@
+package org.example.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.example.entity.enums.BetStatus;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "bets")
+public class Bet {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bet_id")
+    private Long betId;
+
+    // Używamy Double zgodnie z naszą umową.
+    @Column(name = "stake", nullable = false)
+    private Double stake; // Stawka zakładu
+
+    @Column(name = "total_odd", nullable = false)
+    private Double totalOdd; // Łączny kurs
+
+    @Column(name = "potential_payout", nullable = false)
+    private Double potentialPayout; // Potencjalna wygrana
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "bet_status", nullable = false)
+    private BetStatus betStatus;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    //jeden zaklad moze miec wiele wybranych zdarzen
+    @OneToMany(mappedBy = "bet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Set<BetSelection> selections;
+}

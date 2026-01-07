@@ -1,0 +1,47 @@
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: betting_platform-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=2137
+      - POSTGRES_DB= bettingPlatformDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql
+
+  redis:
+    image: redis:7
+    container_name: betting_platform_redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: betting_platform_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  frontend:
+    image: node:20
+    container_name: betting_platform_frontend
+    working_dir: /app
+
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+    environment:
+      - WATCHPACK_POLLING=true
+
+volumes:
+  postgres-data:
+    driver: local

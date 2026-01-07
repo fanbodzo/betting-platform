@@ -1,0 +1,54 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+      # Definicja tras (Routes)
+      routes:
+        # --- Trasy do USER-SERVICE (8081) ---
+        - id: user-service-auth
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+
+        - id: user-service-users
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/users/**
+
+        # --- Trasy do BETTING-SERVICE (8080) ---
+        - id: betting-service-events
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/events/**
+
+        - id: betting-service-bets
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/bets/**
+
+        - id: betting-service-coupons
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/coupon/**
+
+        - id: betting-service-admin
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/admin/**
