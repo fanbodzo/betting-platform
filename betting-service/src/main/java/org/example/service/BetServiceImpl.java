@@ -102,7 +102,7 @@ public class BetServiceImpl implements BetService {
     @Override
     @Transactional(readOnly = true)
     public List<BetHistoryDto> getUserBets(Long userId ,  String status){
-        List<Bet> historyBets = betRepository.findByUserIdAndBetStatusByCreatedAtDesc(userId , BetStatus.valueOf(status.toUpperCase()));
+        List<Bet> historyBets = betRepository.findByUserIdAndBetStatusOrderByCreatedAtDesc(userId , BetStatus.valueOf(status.toUpperCase()));
 
         return historyBets.stream().map(this::mapToMyBetDto).collect(Collectors.toList());
     }

@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface BetRepository extends JpaRepository<Bet, Long> {
-    List<Bet> findByUserIdAndBetStatusByCreatedAtDesc(Long userId ,BetStatus status);
+    List<Bet> findByUserIdOrderByCreatedAtDesc(Long userId);
+    List<Bet> findByUserIdAndBetStatusOrderByCreatedAtDesc(Long userId ,BetStatus status);
 }

@@ -5,23 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="259ab742-729f-484f-ab30-4a2e90344245" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api-gateway/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/client/UserClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/client/UserEventListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/config/BettingDataSeeder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/config/FeignConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/dto/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/dto/event/BetPlacedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/dto/event/BetSettledEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/dto/event/UserRegisteredEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/config/UserDataSeeder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/event/BetPlacedEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/dto/event/BetSettledEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/TransactionEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/controller/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/controller/EventController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/repository/BetRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/repository/BetRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/BetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/BetServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/EventService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/EventServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/EventServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +27,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "fanbodzo"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/fanbodzo/betting-platform.git",
+    "accountId": "101d4a45-31be-456b-8b68-95f2eabdf762"
+  }
+}]]></component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -53,45 +54,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.betting-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.user-service [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.user-service [install].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.BettingServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserService.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/JAVA/betting-platform/betting-service/src/main/java/org/example&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;D:/JAVA/betting-platform/api-gateway/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.betting-service [clean].executor": "Run",
+    "Maven.user-service [clean].executor": "Run",
+    "Maven.user-service [install].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.ApiGatewayApplication.executor": "Run",
+    "Spring Boot.BettingServiceApplication.executor": "Run",
+    "Spring Boot.UserService.executor": "Run",
+    "Spring Boot.UserServiceApplication.executor": "Run",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/JAVA/betting-platform/betting-service/src/main/java/org/example",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "D:/JAVA/betting-platform/api-gateway/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\JAVA\betting-platform\betting-service\src\main\java\org\example" />
@@ -196,7 +197,7 @@
       <workItem from="1767614071495" duration="6723000" />
       <workItem from="1767703248089" duration="8605000" />
       <workItem from="1767720314728" duration="910000" />
-      <workItem from="1767799163331" duration="7708000" />
+      <workItem from="1767799163331" duration="10643000" />
     </task>
     <servers />
   </component>

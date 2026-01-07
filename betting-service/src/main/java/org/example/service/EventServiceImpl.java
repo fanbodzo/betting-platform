@@ -20,17 +20,6 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<EventDto> getAllActiveEvents() {
-
-        List<Event> events = eventRepository.findByEventStatus(EventStatus.UPCOMING);
-
-        return events.stream()
-                .map(this::mapToEventDto)
-                .collect(Collectors.toList());
-    }
-
     private EventDto mapToEventDto(Event event) {
         EventDto dto = new EventDto();
         dto.setEventId(event.getId());

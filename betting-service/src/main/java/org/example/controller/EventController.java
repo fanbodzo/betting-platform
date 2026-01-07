@@ -16,16 +16,13 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<List<EventDto>> getAllEvents() {
-        return ResponseEntity.ok(eventService.getAllActiveEvents());
-    }
+    public ResponseEntity<List<EventDto>> getAllEvents(@RequestParam(required = false) String status ) {
 
-    @GetMapping
-    public ResponseEntity<List<EventDto>> getAllEventsByStatus(@RequestParam(required = false) String status ) {
         List<EventDto> events = eventService.getEventByStatus(status);
 
         return ResponseEntity.ok(events);
     }
+
 
     @DeleteMapping
     public ResponseEntity<List<EventDto>> deleteAllEvents() {
