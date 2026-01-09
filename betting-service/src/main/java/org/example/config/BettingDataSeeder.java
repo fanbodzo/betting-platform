@@ -31,9 +31,11 @@ public class BettingDataSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args){
+        /*
         if (eventRepository.findByEventStatus(EventStatus.UPCOMING).size() < 3) {
             return;
         }
+         */
 
         System.out.println("populacja bazy");
 
