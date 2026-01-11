@@ -70,7 +70,9 @@ public class EventServiceImpl implements EventService {
     }
     @Override
     @Transactional(readOnly = true)
-    public List<EventDto> getEventByStatus(String status){
+    public List<EventDto> getEventByStatus(String status)
+    {
+
         List<Event> events = eventRepository.findByEventStatus(EventStatus.valueOf(status.toUpperCase()));
 
         return events.stream().map(this::mapToEventDto).collect(Collectors.toList());
