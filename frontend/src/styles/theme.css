@@ -1,5 +1,5 @@
 :root {
-    --bg: #f6f7fb;
+    --bg: #ffffff;
     --surface: #ffffff;
     --surface-2: #f2f4f8;
     --text: #0f172a;
@@ -17,7 +17,7 @@
 }
 
 [data-theme="dark"] {
-    --bg: #0b1220;
+    --bg: #0f172a;
     --surface: #0f172a;
     --surface-2: #111c33;
     --text: #e5e7eb;
@@ -32,8 +32,11 @@
     --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
-html, body {
+html, body, #root {
     height: 100%;
+    max-height: 100%;
+    overflow-anchor: none;
+    background: var(--bg);
 }
 
 body {
@@ -46,4 +49,29 @@ body {
 a { color: inherit; }
 button, input, select {
     font: inherit;
+}
+
+html {
+    background: var(--bg);
+}
+
+
+::backdrop {
+    background: var(--bg);
+}
+
+html, body, #root {
+    min-height: 100%;
+    background: var(--bg);
+    overflow-anchor: none;
+}
+
+#root {
+    min-height: 100vh;
+}
+body { margin: 0; background: var(--bg); }
+html { background: var(--bg); }
+
+html, body {
+    overscroll-behavior: none;
 }

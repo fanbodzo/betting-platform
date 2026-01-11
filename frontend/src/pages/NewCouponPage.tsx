@@ -28,6 +28,16 @@ export function NewCouponPage() {
 
     const [addingOddId, setAddingOddId] = useState<number | null>(null);
 
+    //do filtrow
+    const [q, setQ] = useState<string>("");
+
+    const [dateFrom, setDateFrom] = useState<string>(""); // "YYYY-MM-DD"
+    const [dateTo, setDateTo] = useState<string>("");
+
+    const [oddMin, setOddMin] = useState<string>("");
+    const [oddMax, setOddMax] = useState<string>("");
+
+
     async function refreshCoupon() {
         if (userId === null) return;
         setLoadingCoupon(true);
@@ -130,6 +140,76 @@ export function NewCouponPage() {
 
     const selectedOddIds = new Set(coupon?.selections.map((s) => s.oddId) ?? []);
 
+    function parseIsoDateSafe(value: string): number | null {
+        const t = Date.parse(value);
+        return Number.isFinite(t) ? t : null;
+    }
+
+// dateFrom/dateTo są w formacie YYYY-MM-DD z inputa.
+// Żeby "do" działało intuicyjnie, ustawiamy koniec dnia.
+    function parseDayStart(day: string): number | null {
+        if (!day) return null;
+        const t = Date.parse(`${day}T00:00:00`);
+        return Number.isFinite(t) ? t : null;
+    }
+    function parseDayEnd(day: string): number | null {
+        if (!day) return null;
+        const t = Date.parse(`${day}T23:59:59`);
+        return Number.isFinite(t) ? t : null;
+    }
+
+    const filteredEvents = useMemo(() => {
+        const qNorm = q.trim().toLowerCase();
+
+        const fromT = parseDayStart(dateFrom);
+        const toT = parseDayEnd(dateTo);
+
+        const minOdd = oddMin.trim() === "" ? null : Number(oddMin);
+        const maxOdd = oddMax.trim() === "" ? null : Number(oddMax);
+
+        const hasMin = minOdd !== null && Number.isFinite(minOdd);
+        const hasMax = maxOdd !== null && Number.isFinite(maxOdd);
+
+        return events
+            .map((ev) => {
+                // 1) filtr po nazwie eventu
+                if (qNorm && !String(ev.eventName ?? "").toLowerCase().includes(qNorm)) {
+                    return null;
+                }
+
+                // 2) filtr po dacie
+                const evT = parseIsoDateSafe(String(ev.startTime));
+                if (fromT !== null && evT !== null && evT < fromT) return null;
+                if (toT !== null && evT !== null && evT > toT) return null;
+
+                // 3) filtr po kursach: filtrujemy odds w marketach
+                if (!hasMin && !hasMax) {
+                    return ev; // bez filtra kursów – zwracamy jak jest
+                }
+
+                const filteredMarkets =
+                    ev.markets?.map((m) => {
+                        const odds = (m.odds ?? []).filter((o) => {
+                            const v = Number(o.oddValue);
+                            if (!Number.isFinite(v)) return false;
+                            if (hasMin && v < (minOdd as number)) return false;
+                            if (hasMax && v > (maxOdd as number)) return false;
+                            return true;
+                        });
+
+                        // jeśli w tym markecie nie zostało żadnego odda -> wywalamy market
+                        if (odds.length === 0) return null;
+                        return { ...m, odds };
+                    }).filter(Boolean) ?? [];
+
+                if (filteredMarkets.length === 0) return null;
+
+                return { ...ev, markets: filteredMarkets };
+            })
+            .filter(Boolean) as EventDto[];
+    }, [events, q, dateFrom, dateTo, oddMin, oddMax]);
+
+
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline" }}>
@@ -198,6 +278,127 @@ export function NewCouponPage() {
                             {loadingEvents ? "Ładowanie..." : "Odśwież eventy"}
                         </button>
 
+                        {/* FILTRY */}
+                        <div
+                            style={{
+                                border: "1px solid var(--border)",
+                                background: "var(--surface)",
+                                borderRadius: 16,
+                                padding: 12,
+                                boxShadow: "var(--shadow)",
+                                display: "flex",
+                                gap: 10,
+                                flexWrap: "wrap",
+                                alignItems: "center",
+                                marginBottom: 12,
+                            }}
+                        >
+                            <input
+                                value={q}
+                                onChange={(e) => setQ(e.target.value)}
+                                placeholder="Szukaj (np. Real)"
+                                style={{
+                                    padding: "10px 12px",
+                                    borderRadius: 12,
+                                    border: "1px solid var(--border)",
+                                    background: "var(--surface-2)",
+                                    color: "var(--text)",
+                                    minWidth: 200,
+                                    flex: 1,
+                                }}
+                            />
+
+                            <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, color: "var(--muted)" }}>
+                                Data od
+                                <input
+                                    type="date"
+                                    value={dateFrom}
+                                    onChange={(e) => setDateFrom(e.target.value)}
+                                    style={{
+                                        padding: "8px 10px",
+                                        borderRadius: 12,
+                                        border: "1px solid var(--border)",
+                                        background: "var(--surface-2)",
+                                        color: "var(--text)",
+                                    }}
+                                />
+                            </label>
+
+                            <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, color: "var(--muted)" }}>
+                                Data do
+                                <input
+                                    type="date"
+                                    value={dateTo}
+                                    onChange={(e) => setDateTo(e.target.value)}
+                                    style={{
+                                        padding: "8px 10px",
+                                        borderRadius: 12,
+                                        border: "1px solid var(--border)",
+                                        background: "var(--surface-2)",
+                                        color: "var(--text)",
+                                    }}
+                                />
+                            </label>
+
+                            <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, color: "var(--muted)" }}>
+                                Kurs min
+                                <input
+                                    inputMode="decimal"
+                                    value={oddMin}
+                                    onChange={(e) => setOddMin(e.target.value.replace(",", "."))}
+                                    placeholder="np. 1.5"
+                                    style={{
+                                        width: 110,
+                                        padding: "8px 10px",
+                                        borderRadius: 12,
+                                        border: "1px solid var(--border)",
+                                        background: "var(--surface-2)",
+                                        color: "var(--text)",
+                                    }}
+                                />
+                            </label>
+
+                            <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, color: "var(--muted)" }}>
+                                Kurs max
+                                <input
+                                    inputMode="decimal"
+                                    value={oddMax}
+                                    onChange={(e) => setOddMax(e.target.value.replace(",", "."))}
+                                    placeholder="np. 3.0"
+                                    style={{
+                                        width: 110,
+                                        padding: "8px 10px",
+                                        borderRadius: 12,
+                                        border: "1px solid var(--border)",
+                                        background: "var(--surface-2)",
+                                        color: "var(--text)",
+                                    }}
+                                />
+                            </label>
+
+                            <button
+                                onClick={() => {
+                                    setQ("");
+                                    setDateFrom("");
+                                    setDateTo("");
+                                    setOddMin("");
+                                    setOddMax("");
+                                }}
+                                style={{
+                                    padding: "10px 12px",
+                                    borderRadius: 12,
+                                    border: "1px solid var(--border)",
+                                    background: "transparent",
+                                    color: "var(--text)",
+                                    fontWeight: 1000,
+                                    cursor: "pointer",
+                                }}
+                            >
+                                Wyczyść filtry
+                            </button>
+                        </div>
+
+
                         <div style={{ marginLeft: "auto", fontSize: 12, color: "var(--muted)" }}>
                             Eventy: <b style={{ color: "var(--text)" }}>{events.length}</b>
                         </div>
@@ -212,7 +413,7 @@ export function NewCouponPage() {
                         <p style={{ margin: 0 }}>Brak eventów.</p>
                     ) : (
                         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                            {events.map((ev) => (
+                            {filteredEvents.map((ev) => (
                                 <div
                                     key={ev.eventId}
                                     style={{

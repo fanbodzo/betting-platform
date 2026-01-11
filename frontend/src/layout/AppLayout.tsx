@@ -3,6 +3,9 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/useTheme";
 import { getBalance } from "../api/userApi";
 
+
+
+
 function NavLink({
                      to,
                      label,
@@ -51,10 +54,25 @@ function formatBalance(value: unknown): string {
     return String(value);
 }
 
+function tokenSubIsAdmin(token: string | null): boolean {
+    if (!token) return false;
+    try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        return payload?.sub === "admin";
+    } catch {
+        return false;
+    }
+}
+
 export function AppLayout() {
     const location = useLocation();
     const navigate = useNavigate();
     const { theme, toggle } = useTheme();
+    const token = localStorage.getItem("token");
+    const isAdmin = tokenSubIsAdmin(token);
+    const isActive = (path: string) => location.pathname.startsWith(path);
+
+
 
     const userId = useMemo(() => {
         const s = localStorage.getItem("userId");
@@ -67,7 +85,7 @@ export function AppLayout() {
     const [loadingBalance, setLoadingBalance] = useState(false);
     const [balanceError, setBalanceError] = useState<string | null>(null);
 
-    const isActive = (path: string) => location.pathname.startsWith(path);
+
 
     const onLogout = () => {
         localStorage.removeItem("token");
@@ -99,7 +117,7 @@ export function AppLayout() {
     }, [userId]);
 
     return (
-        <div style={{ minHeight: "100vh" }}>
+        <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
             <header
                 style={{
                     background: "var(--surface)",
@@ -132,13 +150,17 @@ export function AppLayout() {
                                 border: `1px solid var(--border)`,
                             }}
                         >
-                            Bukmacher MVP
+                            FastBeciki.pl
                         </div>
 
                         <nav style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                            {isAdmin && (
+                                <NavLink to="/admin" label="Admin" active={isActive("/admin")} />
+                            )}
                             <NavLink to="/bets" label="Bets" active={isActive("/bets")} />
                             <NavLink to="/coupon/new" label="New coupon" active={isActive("/coupon")} />
                             <NavLink to="/profile" label="Profile" active={isActive("/profile")} />
+
                         </nav>
                     </div>
 
