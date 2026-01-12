@@ -11,6 +11,7 @@ import { ScrollToTop} from "./routing/ScrollToTop.tsx";
 import { RegisterPage} from "./pages/RegisterPage.tsx";
 import "./styles/theme.css";
 
+
 function App() {
     return (
         <BrowserRouter>

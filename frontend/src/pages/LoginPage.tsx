@@ -93,7 +93,7 @@ export function LoginPage() {
                             cursor: "pointer",
                         }}
                     >
-                        {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
+                        {theme === "dark" ? " Dark" : "☀ Light"}
                     </button>
                 </div>
             </header>

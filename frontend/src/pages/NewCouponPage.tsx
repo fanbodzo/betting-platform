@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getEvents, type EventDto, type EventStatus } from "../api/eventsApi";
 import { addToCoupon, clearCoupon, getCoupon, type CouponDto } from "../api/couponApi";
 import { placeBet } from "../api/betsApi";
+import { EventCard } from "../components/EventCard";
 
 const STATUSES: EventStatus[] = ["CANCELLED", "UPCOMING", "LIVE", "FINISHED"];
 
@@ -414,71 +415,14 @@ export function NewCouponPage() {
                     ) : (
                         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                             {filteredEvents.map((ev) => (
-                                <div
+                                <EventCard
                                     key={ev.eventId}
-                                    style={{
-                                        border: "1px solid var(--border)",
-                                        borderRadius: 18,
-                                        padding: 14,
-                                        background: "var(--surface)",
-                                        boxShadow: "var(--shadow)",
-                                    }}
-                                >
-                                    <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                                        <div style={{ minWidth: 0 }}>
-                                            <div style={{ fontWeight: 900, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                                {ev.eventName}
-                                            </div>
-                                            <div style={{ fontSize: 12, color: "var(--muted)" }}>{ev.startTime}</div>
-                                        </div>
-                                        <div style={{ fontSize: 12, color: "var(--muted)" }}>eventId: {ev.eventId}</div>
-                                    </div>
-
-                                    {ev.markets?.length ? (
-                                        <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 12 }}>
-                                            {ev.markets.map((m) => (
-                                                <div key={m.marketId}>
-                                                    <div style={{ fontWeight: 800, marginBottom: 8 }}>
-                                                        {m.marketName}{" "}
-                                                        <span style={{ fontWeight: 600, color: "var(--muted)" }}>(marketId: {m.marketId})</span>
-                                                    </div>
-
-                                                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                                                        {m.odds.map((o) => {
-                                                            const alreadySelected = selectedOddIds.has(o.oddId);
-                                                            const disabled = addingOddId === o.oddId || alreadySelected;
-
-                                                            return (
-                                                                <button
-                                                                    key={o.oddId}
-                                                                    onClick={() => onAddOdd(o.oddId)}
-                                                                    disabled={disabled}
-                                                                    style={{
-                                                                        padding: "8px 12px",
-                                                                        borderRadius: 999,
-                                                                        border: "1px solid var(--border)",
-                                                                        background: alreadySelected ? "transparent" : "var(--surface-2)",
-                                                                        color: "var(--text)",
-                                                                        opacity: disabled ? 0.7 : 1,
-                                                                        cursor: disabled ? "not-allowed" : "pointer",
-                                                                        fontWeight: 800,
-                                                                    }}
-                                                                    title={alreadySelected ? "Już dodane do kuponu" : `oddId: ${o.oddId}`}
-                                                                >
-                                                                    {alreadySelected
-                                                                        ? `Dodane (${o.outcomeName} — ${o.oddValue.toFixed(2)})`
-                                                                        : `${o.outcomeName} — ${o.oddValue.toFixed(2)}`}
-                                                                </button>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <p style={{ marginTop: 12, marginBottom: 0, color: "var(--muted)" }}>Brak marketów/odds.</p>
-                                    )}
-                                </div>
+                                    event={ev}
+                                    mode="BET"
+                                    onAddOdd={onAddOdd}
+                                    disabledOddIds={selectedOddIds}
+                                    loadingOddId={addingOddId}
+                                />
                             ))}
                         </div>
                     )}
