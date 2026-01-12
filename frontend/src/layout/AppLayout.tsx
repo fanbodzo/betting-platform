@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/useTheme";
 import { getBalance } from "../api/userApi";
-
-
+import { addBalance, deductBalance } from "../api/balanceApi";
 
 
 function NavLink({
@@ -34,10 +33,6 @@ function NavLink({
 }
 
 function formatBalance(value: unknown): string {
-    // Obsługa najczęstszych kształtów:
-    // 1) number
-    // 2) { balance: number }
-    // 3) { amount: number } / inne -> fallback
     if (typeof value === "number" && Number.isFinite(value)) return value.toFixed(2);
 
     if (value && typeof value === "object") {
@@ -91,7 +86,48 @@ export function AppLayout() {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         navigate("/login", { replace: true });
+
     };
+
+    async function onDeposit() {
+        if (userId == null) return;
+        const input = prompt("Ile chcesz wpłacić?");
+        if (!input) return;
+
+        const amount = Number(input);
+        if (!Number.isFinite(amount) || amount <= 0) {
+            alert("Kwota musi być liczbą > 0");
+            return;
+        }
+
+        try {
+            await addBalance(userId, amount);
+            await refreshBalance();
+            alert("Wpłata OK");
+        } catch (e: any) {
+            alert(e?.response?.data?.message ?? e?.message ?? "Błąd wpłaty");
+        }
+    }
+
+    async function onWithdraw() {
+        if (userId == null) return;
+        const input = prompt("Ile chcesz wypłacić?");
+        if (!input) return;
+
+        const amount = Number(input);
+        if (!Number.isFinite(amount) || amount <= 0) {
+            alert("Kwota musi być liczbą > 0");
+            return;
+        }
+
+        try {
+            await deductBalance(userId, amount);
+            await refreshBalance();
+            alert("Wypłata OK");
+        } catch (e: any) {
+            alert(e?.response?.data?.message ?? e?.message ?? "Błąd wypłaty");
+        }
+    }
 
     async function refreshBalance() {
         if (userId == null) return;
@@ -200,6 +236,38 @@ export function AppLayout() {
                             </button>
                         </div>
 
+                        {/* WPŁATA */}
+                        <button
+                            onClick={onDeposit}
+                            style={{
+                                padding: "8px 12px",
+                                borderRadius: 12,
+                                border: `1px solid var(--border)`,
+                                background: "var(--surface-2)",
+                                color: "var(--text)",
+                                fontWeight: 800,
+                                cursor: "pointer",
+                            }}
+                        >
+                            Wpłata
+                        </button>
+
+                        {/*WYPŁATA*/}
+                        <button
+                            onClick={onWithdraw}
+                            style={{
+                                padding: "8px 12px",
+                                borderRadius: 12,
+                                border: `1px solid var(--border)`,
+                                background: "var(--surface-2)",
+                                color: "var(--text)",
+                                fontWeight: 800,
+                                cursor: "pointer",
+                            }}
+                        >
+                            Wypłata
+                        </button>
+
                         {/* THEME */}
                         <button
                             onClick={toggle}
@@ -216,6 +284,7 @@ export function AppLayout() {
                         >
                             {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
                         </button>
+
 
                         {/* LOGOUT */}
                         <button

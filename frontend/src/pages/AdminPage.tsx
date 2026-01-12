@@ -9,8 +9,10 @@ import {
 
 import { getUsers, getBalance } from "../api/userApi";
 import { getBets } from "../api/betsApi";
+import { settleMarket } from "../api/adminApi";
+import { EventCard } from "../components/EventCard";
 
-type Tab = "CREATE" | "DELETE" | "USERS";
+type Tab = "CREATE" | "DELETE" | "USERS" | "SETTLE";
 
 type BetStatus = "PENDING" | "LOST" | "WIN" | "VOID";
 
@@ -129,7 +131,7 @@ export function AdminPage() {
 
     // ładowanie eventów tylko gdy jesteśmy na zakładkach eventowych
     useEffect(() => {
-        if (tab === "CREATE" || tab === "DELETE") {
+        if (tab === "CREATE" || tab === "DELETE" || tab == "SETTLE") {
             loadEvents();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -241,11 +243,225 @@ export function AdminPage() {
         }
     }
 
-    // gdy wejdziesz w USERS, pobierz listę
+    function SettlePanel() {
+        const [status, setStatus] = useState<EventStatus>("UPCOMING");
+        const [events, setEvents] = useState<EventDto[]>([]);
+        const [loading, setLoading] = useState(false);
+        const [err, setErr] = useState<string | null>(null);
+
+        const [selectedEventId, setSelectedEventId] = useState<number | null>(null);
+        const [selectedMarketId, setSelectedMarketId] = useState<number | null>(null);
+        const [selectedWinningOddId, setSelectedWinningOddId] = useState<number | null>(null);
+
+        const selectedEvent = useMemo(
+            () => events.find((e) => e.eventId === selectedEventId) ?? null,
+            [events, selectedEventId]
+        );
+
+        const selectedMarket = useMemo(
+            () => selectedEvent?.markets.find((m) => m.marketId === selectedMarketId) ?? null,
+            [selectedEvent, selectedMarketId]
+        );
+
+        async function refresh() {
+            setLoading(true);
+            setErr(null);
+            try {
+                const e = await getEvents(status);
+                setEvents(e);
+            } catch (e: any) {
+                setErr(e?.response?.data?.message ?? e?.message ?? "Nie udało się pobrać eventów.");
+                setEvents([]);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function onSettle() {
+            if (!selectedMarketId || !selectedWinningOddId) {
+                setErr("Wybierz market i zwycięski odd.");
+                return;
+            }
+
+            setLoading(true);
+            setErr(null);
+            try {
+                await settleMarket(selectedMarketId, selectedWinningOddId);
+                alert("Market rozliczony ✅");
+                // po rozliczeniu odśwież listę (czasem statusy się zmieniają)
+                await refresh();
+            } catch (e: any) {
+                setErr(e?.response?.data?.message ?? e?.message ?? "Nie udało się rozliczyć marketu.");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        // startowo: pobierz po pierwszym renderze (albo kliknij "Odśwież")
+        // jeśli w AdminPage masz już globalny refresh, możesz to wywalić
+        // i sterować z zewnątrz.
+        // (Tu minimalnie: user kliknie Odśwież)
+        return (
+            <div style={{ display: "flex", gap: 16 }}>
+                {/* LEWA: lista eventów */}
+                <div style={{ flex: 1, border: "1px solid var(--border)", borderRadius: 14, padding: 12 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "center" }}>
+                        <div style={{ fontWeight: 900 }}>Eventy</div>
+                        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 900 }}>Status</span>
+                            <select
+                                value={status}
+                                onChange={(e) => {
+                                    setStatus(e.target.value as EventStatus);
+                                    setSelectedEventId(null);
+                                    setSelectedMarketId(null);
+                                    setSelectedWinningOddId(null);
+                                }}
+                            >
+                                <option value="UPCOMING">UPCOMING</option>
+                                <option value="LIVE">LIVE</option>
+                                <option value="ACTIVE">ACTIVE</option>
+                                <option value="FINISHED">FINISHED</option>
+                            </select>
+                            <button onClick={refresh} disabled={loading}>
+                                {loading ? "..." : "Odśwież"}
+                            </button>
+                        </div>
+                    </div>
+
+                    {err && <div style={{ marginTop: 10, color: "crimson", whiteSpace: "pre-wrap" }}>{err}</div>}
+
+                    <div style={{ marginTop: 12, display: "flex", flexDirection: "column", gap: 8 }}>
+                        {events.length === 0 ? (
+                            <div style={{ color: "var(--muted)" }}>Brak eventów (kliknij Odśwież).</div>
+                        ) : (
+                            events.map((ev) => {
+                                const active = selectedEventId === ev.eventId;
+
+                                return (
+                                    <div
+                                        key={ev.eventId}
+                                        onClick={() => {
+                                            setSelectedEventId(ev.eventId);
+                                            setSelectedMarketId(null);
+                                            setSelectedWinningOddId(null);
+                                        }}
+                                        style={{
+                                            borderRadius: 14,
+                                            outline: active ? "2px solid var(--primary)" : "2px solid transparent",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        <EventCard
+                                            event={ev}
+                                            mode="SETTLE"
+                                            selectedWinningOddId={selectedWinningOddId}
+                                            onSelectWinningOdd={(marketId, oddId) => {
+                                                setSelectedEventId(ev.eventId);
+                                                setSelectedMarketId(marketId);
+                                                setSelectedWinningOddId(oddId);
+                                            }}
+                                        />
+                                    </div>
+                                );
+                            })
+                        )}
+                    </div>
+                </div>
+
+                {/* PRAWA: market + wybór wyniku */}
+                <div style={{ flex: 1, border: "1px solid var(--border)", borderRadius: 14, padding: 12 }}>
+                    <div style={{ fontWeight: 900, marginBottom: 10 }}>Rozliczanie</div>
+
+                    {!selectedEvent ? (
+                        <div style={{ color: "var(--muted)" }}>Wybierz event po lewej.</div>
+                    ) : (
+                        <>
+                            <div style={{ fontWeight: 900 }}>{selectedEvent.eventName}</div>
+                            <div style={{ fontSize: 12, color: "var(--muted)", marginBottom: 10 }}>
+                                eventId: {selectedEvent.eventId}
+                            </div>
+
+                            <div style={{ fontWeight: 900, marginBottom: 6 }}>Market</div>
+                            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+                                {selectedEvent.markets.map((m) => (
+                                    <button
+                                        key={m.marketId}
+                                        onClick={() => {
+                                            setSelectedMarketId(m.marketId);
+                                            setSelectedWinningOddId(null);
+                                        }}
+                                        style={{
+                                            textAlign: "left",
+                                            padding: "10px 12px",
+                                            borderRadius: 12,
+                                            border: "1px solid var(--border)",
+                                            background: m.marketId === selectedMarketId ? "var(--surface-2)" : "transparent",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        <div style={{ fontWeight: 900 }}>{m.marketName}</div>
+                                        <div style={{ fontSize: 12, color: "var(--muted)" }}>marketId: {m.marketId}</div>
+                                    </button>
+                                ))}
+                            </div>
+
+                            {!selectedMarket ? (
+                                <div style={{ color: "var(--muted)" }}>Wybierz market.</div>
+                            ) : (
+                                <>
+                                    <div style={{ fontWeight: 900, marginBottom: 6 }}>Zwycięski wynik</div>
+
+                                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                                        {selectedMarket.odds.map((o) => (
+                                            <label
+                                                key={o.oddId}
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    gap: 10,
+                                                    padding: "10px 12px",
+                                                    borderRadius: 12,
+                                                    border: "1px solid var(--border)",
+                                                    cursor: "pointer",
+                                                }}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="winningOdd"
+                                                    checked={selectedWinningOddId === o.oddId}
+                                                    onChange={() => setSelectedWinningOddId(o.oddId)}
+                                                />
+                                                <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+                                                    <div>
+                                                        <div style={{ fontWeight: 900 }}>{o.outcomeName}</div>
+                                                        <div style={{ fontSize: 12, color: "var(--muted)" }}>oddId: {o.oddId}</div>
+                                                    </div>
+                                                    <div style={{ fontWeight: 900 }}>{o.oddValue.toFixed(2)}</div>
+                                                </div>
+                                            </label>
+                                        ))}
+                                    </div>
+
+                                    <div style={{ marginTop: 12 }}>
+                                        <button onClick={onSettle} disabled={loading || !selectedWinningOddId}>
+                                            {loading ? "..." : "Rozlicz market"}
+                                        </button>
+                                    </div>
+                                </>
+                            )}
+                        </>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+
+
     useEffect(() => {
         if (tab !== "USERS") return;
         loadUsers();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tab]);
 
     // gdy mamy users i tab USERS, policz saldo/kupony
@@ -256,7 +472,6 @@ export function AdminPage() {
             return;
         }
         loadUsersRows();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [users, tab]);
 
     const headerRight = useMemo(() => {
@@ -298,6 +513,8 @@ export function AdminPage() {
                 <TabButton active={tab === "CREATE"} label="Dodaj mecz" onClick={() => setTab("CREATE")} />
                 <TabButton active={tab === "DELETE"} label="Usuń mecze" onClick={() => setTab("DELETE")} />
                 <TabButton active={tab === "USERS"} label="Użytkownicy" onClick={() => setTab("USERS")} />
+                <TabButton active={tab === "SETTLE"} label="Rozlicz" onClick={() => setTab("SETTLE")} />
+
 
                 {/* status select tylko dla event tabów */}
                 {(tab === "CREATE" || tab === "DELETE") && (
@@ -583,6 +800,20 @@ export function AdminPage() {
                     )}
                 </div>
             )}
+            {tab === "SETTLE" && (
+                <div
+                    style={{
+                        border: "1px solid var(--border)",
+                        background: "var(--surface)",
+                        borderRadius: 18,
+                        padding: 14,
+                        boxShadow: "var(--shadow)",
+                    }}
+                >
+                    <SettlePanel />
+                </div>
+            )}
+
         </div>
     );
 }
