@@ -33,21 +33,19 @@ public class UserController {
     @PostMapping("/{userId}/balance/deduct")
     public ResponseEntity<Double> deductBalance(@PathVariable("userId") Long userId
             , @RequestParam("amount") Double amount){
-        System.out.println("DEBUG: UserController odebrał żądanie deductBalance! User: " + userId + ", Kwota: " + amount);
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("user not found with id: " + userId));
-        user.setCashBalance(user.getCashBalance() - amount);
-        userRepository.save(user);
-        return ResponseEntity.ok(user.getCashBalance());
+        Double newBalance = userService.deductBalance(userId, amount);
+
+        return ResponseEntity.ok(newBalance);
     }
 
     @PostMapping("/{userId}/balance/add")
     public ResponseEntity<Double> addBalance(@PathVariable("userId") Long userId
             , @RequestParam("amount") Double amount){
-        User user = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("user not found with id: " + userId));
-        user.setCashBalance(user.getCashBalance() + amount);
-        userRepository.save(user);
-        return ResponseEntity.ok(user.getCashBalance());
+
+        Double newBalance = userService.addBalance(userId, amount);
+
+        return ResponseEntity.ok(newBalance);
     }
 
 }
