@@ -5,10 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db20e4a7-0ae7-491d-94d6-327f70865fdb" name="Changes" comment="popraweczka zebym mogl odpalic">
+      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/client/OddsGeneratorClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global-resources/LaLiga_stats.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global-resources/PremierLeague_stats.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global-resources/laliga_model.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/global-resources/premier_league_model.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/AppConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/CsvDataLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/MatchStats.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/MatchStatsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/OddsGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/OddsGeneratorApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/OddsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/PredictionModelConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/OddsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/OddsRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/OddsResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/TeamStatsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/resources/LaLiga_stats.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/resources/PremierLeague_stats.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/resources/laliga_model.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/resources/premier_league_model.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/BetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/BetServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/config/BettingDataSeeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/config/BettingDataSeeder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/OfferManagementServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/OfferManagementServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +45,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
-        <option value="Class" />
         <option value="TypeScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -51,34 +77,50 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.BettingServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;backend-dev&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.49885058&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
-    &quot;settings.editor.splitter.proportion&quot;: &quot;0.3058104&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;A:\\ProjektBukmacher\\frontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.odds-generator-service [clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.ApiGatewayApplication.executor": "Run",
+    "Spring Boot.BettingServiceApplication (1).executor": "Run",
+    "Spring Boot.BettingServiceApplication.executor": "Run",
+    "Spring Boot.OddsGeneratorApplication.executor": "Run",
+    "Spring Boot.UserServiceApplication.executor": "Run",
+    "git-widget-placeholder": "backend-dev",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/JAVA/betting-platform/odds-generator-service/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "D:/JAVA/betting-platform/odds-generator-service/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.49885058",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
+    "settings.editor.splitter.proportion": "0.3058104",
+    "ts.external.directory.path": "A:\\ProjektBukmacher\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\JAVA\betting-platform\odds-generator-service\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\JAVA\betting-platform\global-resources" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="configurationTypes">
       <set>
@@ -95,6 +137,7 @@
             <map>
               <entry key="ApiGatewayApplication" value="STOPPED" />
               <entry key="BettingServiceApplication" value="STOPPED" />
+              <entry key="OddsGeneratorApplication" value="STOPPED" />
               <entry key="UserServiceApplication" value="STOPPED" />
             </map>
           </value>
@@ -102,7 +145,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ApiGatewayApplication">
+  <component name="RunManager" selected="Spring Boot.OddsGeneratorApplication">
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="api-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.ApiGatewayApplication" />
@@ -130,6 +173,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="OddsGeneratorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="odds-generator-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.OddsGeneratorApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="user-service (1)" />
@@ -145,6 +202,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Spring Boot.OddsGeneratorApplication" />
       <item itemvalue="Spring Boot.ApiGatewayApplication" />
       <item itemvalue="Spring Boot.BettingServiceApplication" />
       <item itemvalue="Spring Boot.UserServiceApplication" />
@@ -152,8 +210,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.ApiGatewayApplication" />
-        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Spring Boot.BettingServiceApplication" />
+        <item itemvalue="Spring Boot.UserServiceApplication" />
+        <item itemvalue="Spring Boot.OddsGeneratorApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -174,6 +233,8 @@
       <updated>1768170890224</updated>
       <workItem from="1768170891712" duration="6898000" />
       <workItem from="1768327669635" duration="2431000" />
+      <workItem from="1768481308967" duration="11781000" />
+      <workItem from="1768578022914" duration="7273000" />
     </task>
     <task id="LOCAL-00001" summary="popraweczka zebym mogl odpalic">
       <option name="closed" value="true" />
@@ -191,6 +252,17 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="popraweczka zebym mogl odpalic" />

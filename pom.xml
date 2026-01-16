@@ -12,6 +12,7 @@
         <module>user-service</module>
         <module>betting-service</module>
         <module>api-gateway</module>
+        <module>odds-generator-service</module>
     </modules>
     <properties>
         <maven.compiler.source>23</maven.compiler.source>
