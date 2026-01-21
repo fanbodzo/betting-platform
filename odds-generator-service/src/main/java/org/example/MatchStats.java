@@ -25,11 +25,11 @@ public class MatchStats {
 
     private Integer goalsScored;
     private Double npxgCreated;
-    private Integer sotFor;
+    private Double sotFor;
     private Double scaFor;
 
     private Integer goalsConceded;
     private Double npxgConceded;
-    private Integer sotAgainst;
+    private Double sotAgainst;
     private Double scaAgainst;
 }

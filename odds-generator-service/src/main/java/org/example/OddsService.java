@@ -1,6 +1,7 @@
 package org.example;
 
 import lombok.RequiredArgsConstructor;
+import org.example.dto.MatchHistoryDto;
 import org.example.dto.OddsResponse;
 import org.example.dto.TeamStatsDTO;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,41 @@ public class OddsService {
                 totalGoalsConceded / count,// avgGoalsConceded5
                 totalNpxgConceded / count  // avgNpxgConceded5
         );
+    }
+    // W OddsService
+    public void saveMatchHistory(MatchHistoryDto dto) {
+        // 1. Zapis dla Gospodarza (Home)
+        MatchStats homeStats = MatchStats.builder()
+                .date(dto.date())
+                .team(dto.homeTeam())
+                .opponent(dto.awayTeam())
+                .venue("Home")
+                .goalsScored(dto.homeGoals())
+                .goalsConceded(dto.awayGoals())
+                .npxgCreated(dto.homeXg())
+                .scaFor(dto.homeSca())
+                .sotFor(dto.homeSot())
+                .npxgConceded(dto.homeXgConceded())
+                .scaAgainst(dto.awaySca())
+                .sotAgainst(dto.awaySot())
+                .build();
+        repository.save(homeStats);
+
+        // 2. Zapis dla Gościa (Away) - Opcjonalnie, ale warto dla kompletności
+        MatchStats awayStats = MatchStats.builder()
+                .date(dto.date())
+                .team(dto.awayTeam())
+                .opponent(dto.homeTeam())
+                .venue("Away")
+                .goalsScored(dto.awayGoals())
+                .goalsConceded(dto.homeGoals())
+                .npxgCreated(dto.awayXg())
+                .scaFor(dto.awaySca())
+                .sotFor(dto.awaySot())
+                .npxgConceded(dto.homeXg())
+                .scaAgainst(dto.homeSca())
+                .sotAgainst(dto.homeSot())
+                .build();
+        repository.save(awayStats);
     }
 }

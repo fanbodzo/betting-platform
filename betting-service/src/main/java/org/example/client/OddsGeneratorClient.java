@@ -1,6 +1,7 @@
 package org.example.client;
 
 import org.example.config.FeignConfig;
+import org.example.dto.MatchHistoryDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,4 +13,8 @@ public interface OddsGeneratorClient {
 
     @PostMapping("/predict")
     Map<String, Double> generateOdds(@RequestBody Map<String, String> request);
+
+    // W OddsGeneratorClient
+    @PostMapping("/history/add")
+    void saveMatchHistory(@RequestBody MatchHistoryDto dto);
 }

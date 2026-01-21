@@ -46,10 +46,10 @@ public class CsvDataLoader  implements CommandLineRunner {
                             .goalsScored(Integer.parseInt(data[5]))
                             .goalsConceded(Integer.parseInt(data[6]))
                             .npxgCreated(Double.parseDouble(data[7]))
-                            .sotFor(Integer.parseInt(data[8]))
+                            .sotFor(Double.valueOf(data[8]))
                             .scaFor(Double.parseDouble(data[9]))
                             .npxgConceded(Double.parseDouble(data[10]))
-                            .sotAgainst(Integer.parseInt(data[11]))
+                            .sotAgainst(Double.valueOf(data[11]))
                             .scaAgainst(Double.parseDouble(data[12]))
                             .build();
 
@@ -84,10 +84,10 @@ public class CsvDataLoader  implements CommandLineRunner {
                             .goalsScored(Integer.parseInt(data[5]))
                             .goalsConceded(Integer.parseInt(data[6]))
                             .npxgCreated(Double.parseDouble(data[7]))
-                            .sotFor(Integer.parseInt(data[8]))
+                            .sotFor(Double.valueOf(data[8]))
                             .scaFor(Double.parseDouble(data[9]))
                             .npxgConceded(Double.parseDouble(data[10]))
-                            .sotAgainst(Integer.parseInt(data[11]))
+                            .sotAgainst(Double.valueOf(data[11]))
                             .scaAgainst(Double.parseDouble(data[12]))
                             .build();
 

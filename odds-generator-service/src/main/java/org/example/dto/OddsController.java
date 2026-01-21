@@ -18,4 +18,9 @@ public class OddsController {
     public ResponseEntity<OddsResponse> predict(@RequestBody OddsRequest request) {
         return ResponseEntity.ok(service.calculateOdds(request.homeTeam(), request.awayTeam()));
     }
+
+    @PostMapping("/history/add")
+    public void saveMatchHistory(@RequestBody MatchHistoryDto dto) {
+        service.saveMatchHistory(dto); // Metoda, którą zaraz dodasz w serwisie
+    }
 }
