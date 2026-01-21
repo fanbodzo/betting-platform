@@ -1,0 +1,18 @@
+{
+    "home_coeffs": {
+        "const": -0.7254331765795636,
+        "avg_goals_scored_5": 0.11124187394915594,
+        "avg_npxg_5": 0.10032399945562437,
+        "avg_sca_5": 0.019360280995974335,
+        "avg_goals_conceded_5_opp": -0.012317401724399595,
+        "avg_npxg_conceded_5_opp": 0.3372736304077785
+    },
+    "away_coeffs": {
+        "const": -0.9297549085481175,
+        "avg_goals_scored_5": 0.08852766317940565,
+        "avg_npxg_5": 0.13044443929706145,
+        "avg_sca_5": 0.01840652067335044,
+        "avg_goals_conceded_5_opp": 0.04127331996476252,
+        "avg_npxg_conceded_5_opp": 0.308673298265673
+    }
+}
