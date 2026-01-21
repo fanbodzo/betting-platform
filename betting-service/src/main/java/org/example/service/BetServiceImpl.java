@@ -48,6 +48,9 @@ public class BetServiceImpl implements BetService {
             throw new IllegalStateException("nie wystarzcajaca ilsoc srodkow na koncie twoje saldo to: "
             + userClient.getUserBalance(userId) + " ,  stawka kuponu wynosi: " + stake);
         }
+        if(stake <= 0){
+            throw new IllegalStateException("nie mozna postawic kuponu za kwote mniejsza lub rowna 0 ");
+        }
 
         //postawienie kuponu
         Bet newBet = Bet.builder()

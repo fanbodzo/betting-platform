@@ -32,13 +32,12 @@ services:
     image: node:20
     container_name: betting_platform_frontend
     working_dir: /app
-
     volumes:
       - ./frontend:/app
       - /app/node_modules
     ports:
       - "3000:3000"
-    command: sh -c "npm install && npm start"
+    command: sh -c "npm install && npm run dev -- --host"
     environment:
       - WATCHPACK_POLLING=true
 

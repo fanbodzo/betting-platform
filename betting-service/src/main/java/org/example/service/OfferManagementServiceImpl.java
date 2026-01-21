@@ -30,8 +30,12 @@ public class OfferManagementServiceImpl implements OfferManagementService {
     @Transactional
     public Event createEvent(CreateEventRequest request){
 
+        System.out.println("DEBUG: Wchodzę do createEvent. SportId=" + request.sportId());
+
         Sport sport = sportRepository.findById(request.sportId())
                 .orElseThrow(() -> new EntityNotFoundException("Sport not found with id: " + request.sportId()));
+
+        System.out.println("DEBUG: Sport znaleziony: " + sport.getSportName());
 
         Event event = Event.builder()
                 .sports(sport)
@@ -40,6 +44,7 @@ public class OfferManagementServiceImpl implements OfferManagementService {
                 .eventStatus(EventStatus.UPCOMING)
                 .build();
 
+        System.out.println("DEBUG: Próba zapisu Eventu...");
         return eventRepository.save(event);
     }
 
