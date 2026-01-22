@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginApi } from "../api/authApi";
 import { getUsers } from "../api/userApi";
 import { useTheme } from "../theme/useTheme";
+import { Link } from "react-router-dom";
 import  logo  from "../graph/logo.png";
 
 export function LoginPage() {
@@ -68,7 +69,8 @@ export function LoginPage() {
                         gap: 12,
                     }}
                 >
-                    <div
+                    <Link
+                        to="/"
                         style={{
                             fontWeight: 1000,
                             letterSpacing: 0.2,
@@ -76,11 +78,15 @@ export function LoginPage() {
                             borderRadius: 12,
                             background: "var(--surface-2)",
                             border: "1px solid var(--border)",
+                            textDecoration: "none",
+                            color: "inherit",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 10,
                         }}
                     >
                         FastBeciki.pl
-                    </div>
-
+                    </Link>
                     <button
                         onClick={toggle}
                         style={{
@@ -93,7 +99,7 @@ export function LoginPage() {
                             cursor: "pointer",
                         }}
                     >
-                        {theme === "dark" ? " Dark" : "☀ Light"}
+                        {theme === "dark" ? " Ciemny" : " Jasny"}
                     </button>
                 </div>
             </header>

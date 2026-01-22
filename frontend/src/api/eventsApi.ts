@@ -35,7 +35,7 @@ export type CreateEventRequest = {
 };
 
 export async function adminCreateEvent(payload: CreateEventRequest) {
-    const res = await apiClient.post("/api/v1/admin/events", payload);
+    const res = await apiClient.post("/api/v1/admin/events/create-auto", payload);
     return res.data;
 }
 

@@ -7,19 +7,27 @@ import { NewCouponPage } from "./pages/NewCouponPage";
 import { AppLayout } from "./layout/AppLayout";
 import { AdminRoute } from "./auth/AdminRoute";
 import { AdminPage } from "./pages/AdminPage";
-import { ScrollToTop} from "./routing/ScrollToTop.tsx";
-import { RegisterPage} from "./pages/RegisterPage.tsx";
+import { ScrollToTop } from "./routing/ScrollToTop.tsx";
+import { RegisterPage } from "./pages/RegisterPage.tsx";
 import "./styles/theme.css";
 
-
 function App() {
+    const hasToken = !!localStorage.getItem("token");
+
     return (
         <BrowserRouter>
-            <ScrollToTop/>
+            <ScrollToTop />
             <Routes>
+                {/* ROOT: login jeśli nie ma tokena, bets jeśli jest */}
+                <Route
+                    path="/"
+                    element={<Navigate to={hasToken ? "/bets" : "/login"} replace />}
+                />
+
                 {/* public */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+
                 {/* private: layout + auth */}
                 <Route
                     element={
@@ -28,12 +36,10 @@ function App() {
                         </ProtectedRoute>
                     }
                 >
-                    <Route path="/" element={<Navigate to="/bets" replace />} />
                     <Route path="/bets" element={<BetsPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/coupon/new" element={<NewCouponPage />} />
 
-                    {/* admin też w layoutcie */}
                     <Route
                         path="/admin"
                         element={
@@ -44,7 +50,7 @@ function App() {
                     />
                 </Route>
 
-                {/* catch-all na końcu */}
+                {/* catch-all */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </BrowserRouter>

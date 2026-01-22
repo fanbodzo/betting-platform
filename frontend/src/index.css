@@ -1,4 +1,4 @@
-/* Minimalny reset – nie psuje layoutu appki */
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -10,8 +10,8 @@ html, body, #root {
 }
 
 body {
-  display: block;         /* ważne: żadnego flexa na body */
+  display: block;
   min-width: 320px;
-  background: var(--bg);  /* bierze z theme.css */
+  background: var(--bg);
   color: var(--text);
 }

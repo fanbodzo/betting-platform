@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-    adminCreateEvent,
     deleteEventById,
     getEvents,
     type EventDto,
-    type EventStatus,
+    type EventStatus, adminCreateEvent,
 } from "../api/eventsApi";
 
 import { getUsers, getBalance } from "../api/userApi";
@@ -69,9 +68,10 @@ export function AdminPage() {
     const [loadingEvents, setLoadingEvents] = useState(false);
     const [eventsErr, setEventsErr] = useState<string | null>(null);
 
-    // ---- CREATE EVENT
-    const [eventName, setEventName] = useState("");
-    const [startTime, setStartTime] = useState(""); // datetime-local string
+    // CREATE (auto): wybór drużyn zamiast ręcznego eventName
+    const [homeTeam, setHomeTeam] = useState("");
+    const [awayTeam, setAwayTeam] = useState("");
+    const [startTime, setStartTime] = useState(""); // input datetime-local
     const [creating, setCreating] = useState(false);
 
     // ---- DELETE EVENT (double confirm)
@@ -87,6 +87,67 @@ export function AdminPage() {
     >([]);
     const [loadingUserRows, setLoadingUserRows] = useState(false);
 
+
+
+    // NA SZTYWNO (na start)
+    const TEAMS = [
+        "Chelsea",
+        "Mallorca",
+        "Bournemouth",
+        "Burnley",
+        "Everton",
+        "Las Palmas",
+        "West Ham",
+        "Luton Town",
+        "Eibar",
+        "Huesca",
+        "Real Sociedad",
+        "Granada",
+        "Getafe",
+        "West Brom",
+        "Real Madrid",
+        "Manchester City",
+        "Manchester Utd",
+        "Villarreal",
+        "Osasuna",
+        "Fulham",
+        "Brentford",
+        "Leicester City",
+        "Levante",
+        "Ipswich Town",
+        "Valladolid",
+        "Leganés",
+        "Brighton",
+        "Almería",
+        "Norwich City",
+        "Athletic Club",
+        "Sheffield Utd",
+        "Wolves",
+        "Betis",
+        "Barcelona",
+        "Celta Vigo",
+        "Tottenham",
+        "Valencia",
+        "Cádiz",
+        "Aston Villa",
+        "Elche",
+        "Rayo Vallecano",
+        "Espanyol",
+        "Sevilla",
+        "Girona",
+        "Newcastle Utd",
+        "Liverpool",
+        "Crystal Palace",
+        "Arsenal",
+        "Atlético Madrid",
+        "Leeds United",
+        "Alavés",
+        "Watford",
+        "Southampton"
+    ];
+
+
+
     // default startTime = now + 1h
     useEffect(() => {
         if (startTime) return;
@@ -100,15 +161,14 @@ export function AdminPage() {
         )}:${pad(d.getMinutes())}`;
 
         setStartTime(v);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-// reset scroll przy zmianie zakładki/statusu
+
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     }, [tab, status]);
 
-// wyczyść "potwierdź usuwanie" przy zmianie listy
+
     useEffect(() => {
         setConfirmDeleteId(null);
     }, [tab, status, events.length]);
@@ -129,36 +189,11 @@ export function AdminPage() {
         }
     }
 
-    // ładowanie eventów tylko gdy jesteśmy na zakładkach eventowych
     useEffect(() => {
         if (tab === "CREATE" || tab === "DELETE" || tab == "SETTLE") {
             loadEvents();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status, tab]);
-
-    async function onCreate() {
-        if (!eventName.trim()) return setEventsErr("Event name jest wymagany.");
-        if (!startTime.trim()) return setEventsErr("Start time jest wymagany.");
-
-        setCreating(true);
-        setEventsErr(null);
-        try {
-            await adminCreateEvent({
-                eventName: eventName.trim(),
-                startTime: toBackendLocalDateTime(startTime.trim()),
-            });
-            setEventName("");
-            await loadEvents();
-            // po dodaniu przerzuć na listę usuwania, jak chcesz:
-            // setTab("DELETE");
-        } catch (e: any) {
-            const msg = e?.response?.data?.message ?? e?.message ?? "Nie udało się dodać meczu.";
-            setEventsErr(msg);
-        } finally {
-            setCreating(false);
-        }
-    }
 
     async function onDelete(id: number) {
         if (confirmDeleteId !== id) {
@@ -200,7 +235,6 @@ export function AdminPage() {
         setUsersErr(null);
 
         try {
-            // MVP: dla każdego usera bierzemy saldo + liczbę kuponów (suma wszystkich statusów)
             const rows = await Promise.all(
                 users.map(async (u: any) => {
                     const userId = Number(u.userId ?? u.id);
@@ -212,7 +246,6 @@ export function AdminPage() {
                     try {
                         bal = await getBalance(userId);
                     } catch {
-                        // ignore, pokażemy "błąd" jako —
                     }
 
                     // liczenie kuponów: sumujemy po statusach
@@ -222,7 +255,6 @@ export function AdminPage() {
                             const b = await getBets(userId, st);
                             totalBets += Array.isArray(b) ? b.length : 0;
                         } catch {
-                            // ignore
                         }
                     }
 
@@ -235,13 +267,68 @@ export function AdminPage() {
                 })
             );
 
-            // sort: najwięcej kuponów na górze
             rows.sort((a, b) => b.betsCount - a.betsCount);
             setUsersRows(rows);
         } finally {
             setLoadingUserRows(false);
         }
     }
+
+    async function createAutoEvent() {
+        // aliasy nazw -> to co generator lubi (dopisz swoje)
+        const TEAM_ALIASES: Record<string, string> = {
+            "Barca": "Barcelona",
+            "Atlético": "Atletico Madrid",
+            "Atletico": "Atletico Madrid",
+            "Man Utd": "Manchester United",
+        };
+
+        const normalizeTeam = (name: string) => {
+            const n = name.trim();
+            return TEAM_ALIASES[n] ?? n;
+        };
+
+        const home = normalizeTeam(homeTeam);
+        const away = normalizeTeam(awayTeam);
+
+        if (!home || !away) return;
+
+        if (home.toLowerCase() === away.toLowerCase()) {
+            setEventsErr("Home i Away nie mogą być takie same.");
+            return;
+        }
+
+        if (!startTime.trim()) {
+            setEventsErr("Start time jest wymagany.");
+            return;
+        }
+
+        const eventName = `${home} vs ${away}`; // <-- format wymagany przez backend
+
+        setCreating(true);
+        setEventsErr(null);
+
+        try {
+            await adminCreateEvent({
+                eventName,
+                startTime: toBackendLocalDateTime(startTime.trim()),
+            });
+
+            setHomeTeam("");
+            setAwayTeam("");
+            await loadEvents();
+        } catch (e: any) {
+            setEventsErr(
+                e?.response?.data?.message ?? e?.message ?? "Nie udało się dodać meczu."
+            );
+        } finally {
+            setCreating(false);
+        }
+    }
+
+
+
+
 
     function SettlePanel() {
         const [status, setStatus] = useState<EventStatus>("UPCOMING");
@@ -287,8 +374,7 @@ export function AdminPage() {
             setErr(null);
             try {
                 await settleMarket(selectedMarketId, selectedWinningOddId);
-                alert("Market rozliczony ✅");
-                // po rozliczeniu odśwież listę (czasem statusy się zmieniają)
+                alert("Market rozliczony");
                 await refresh();
             } catch (e: any) {
                 setErr(e?.response?.data?.message ?? e?.message ?? "Nie udało się rozliczyć marketu.");
@@ -297,10 +383,6 @@ export function AdminPage() {
             }
         }
 
-        // startowo: pobierz po pierwszym renderze (albo kliknij "Odśwież")
-        // jeśli w AdminPage masz już globalny refresh, możesz to wywalić
-        // i sterować z zewnątrz.
-        // (Tu minimalnie: user kliknie Odśwież)
         return (
             <div style={{ display: "flex", gap: 16 }}>
                 {/* LEWA: lista eventów */}
@@ -599,52 +681,104 @@ export function AdminPage() {
                 >
                     <div style={{ fontWeight: 1000 }}>Dodaj mecz</div>
 
-                    <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                        <input
-                            value={eventName}
-                            onChange={(e) => setEventName(e.target.value)}
-                            placeholder="Nazwa eventu (np. Real vs Barca)"
-                            style={{
-                                flex: 1,
-                                minWidth: 260,
-                                padding: "10px 12px",
-                                borderRadius: 12,
-                                border: "1px solid var(--border)",
-                                background: "var(--surface-2)",
-                                color: "var(--text)",
-                            }}
-                        />
-                        <input
-                            value={startTime}
-                            onChange={(e) => setStartTime(e.target.value)}
-                            type="datetime-local"
-                            style={{
-                                flex: 1,
-                                minWidth: 260,
-                                padding: "10px 12px",
-                                borderRadius: 12,
-                                border: "1px solid var(--border)",
-                                background: "var(--surface-2)",
-                                color: "var(--text)",
-                            }}
-                        />
-                        <button
-                            onClick={onCreate}
-                            disabled={creating}
-                            style={{
-                                padding: "10px 12px",
-                                borderRadius: 12,
-                                border: "1px solid transparent",
-                                background: "var(--primary)",
-                                color: "var(--primary-contrast)",
-                                fontWeight: 1000,
-                                cursor: creating ? "not-allowed" : "pointer",
-                                opacity: creating ? 0.7 : 1,
-                            }}
-                        >
-                            {creating ? "Dodawanie..." : "Dodaj"}
-                        </button>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                            <select
+                                value={homeTeam}
+                                onChange={(e) => setHomeTeam(e.target.value)}
+                                style={{
+                                    padding: "10px 12px",
+                                    borderRadius: 12,
+                                    border: "1px solid var(--border)",
+                                    background: "var(--surface-2)",
+                                    color: "var(--text)",
+                                    minWidth: 220,
+                                }}
+                            >
+                                <option value="">Home team</option>
+                                {TEAMS.map((t) => (
+                                    <option key={t} value={t}>
+                                        {t}
+                                    </option>
+                                ))}
+                            </select>
+
+                            <div style={{ fontWeight: 900, color: "var(--muted)" }}>vs</div>
+
+                            <select
+                                value={awayTeam}
+                                onChange={(e) => setAwayTeam(e.target.value)}
+                                style={{
+                                    padding: "10px 12px",
+                                    borderRadius: 12,
+                                    border: "1px solid var(--border)",
+                                    background: "var(--surface-2)",
+                                    color: "var(--text)",
+                                    minWidth: 220,
+                                }}
+                            >
+                                <option value="">Away team</option>
+                                {TEAMS.filter((t) => t !== homeTeam).map((t) => (
+                                    <option key={t} value={t}>
+                                        {t}
+                                    </option>
+                                ))}
+                            </select>
+
+                            <input
+                                value={startTime}
+                                onChange={(e) => setStartTime(e.target.value)}
+                                type="datetime-local"
+                                style={{
+                                    flex: 1,
+                                    minWidth: 260,
+                                    padding: "10px 12px",
+                                    borderRadius: 12,
+                                    border: "1px solid var(--border)",
+                                    background: "var(--surface-2)",
+                                    color: "var(--text)",
+                                }}
+                            />
+
+                            <button
+                                onClick={createAutoEvent}
+                                disabled={
+                                    creating ||
+                                    !homeTeam ||
+                                    !awayTeam ||
+                                    homeTeam.toLowerCase() === awayTeam.toLowerCase() ||
+                                    !startTime
+                                }
+                                style={{
+                                    padding: "10px 12px",
+                                    borderRadius: 12,
+                                    border: "1px solid transparent",
+                                    background: "var(--primary)",
+                                    color: "var(--primary-contrast)",
+                                    fontWeight: 1000,
+                                    cursor: creating ? "not-allowed" : "pointer",
+                                    opacity: creating ? 0.7 : 1,
+                                }}
+                            >
+                                {creating ? "Dodawanie..." : "Utwórz"}
+                            </button>
+                        </div>
+
+                        {homeTeam && awayTeam && homeTeam.toLowerCase() !== awayTeam.toLowerCase() && (
+                            <div
+                                style={{
+                                    padding: "12px 14px",
+                                    borderRadius: 14,
+                                    border: "1px solid var(--border)",
+                                    background: "var(--surface-2)",
+                                    fontWeight: 1000,
+                                }}
+                            >
+                                {homeTeam} <span style={{ color: "var(--muted)" }}>vs</span> {awayTeam}
+                            </div>
+                        )}
                     </div>
+
                 </div>
             )}
 
