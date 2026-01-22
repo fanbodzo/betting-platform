@@ -52,3 +52,8 @@ spring:
           uri: http://localhost:8080
           predicates:
             - Path=/api/v1/admin/**
+
+        - id: odds-generator-stats
+          uri: http://localhost:8082
+          predicates:
+              - Path=/api/v1/generator/stats/**

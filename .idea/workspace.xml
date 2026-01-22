@@ -5,20 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db20e4a7-0ae7-491d-94d6-327f70865fdb" name="Changes" comment="dodanie nowego mikroserwisu z działającym generowaniem kursów , dodac musze autoamtyczne rozliczanie zakladow i dodwanie statystyk do nwoej bazy ale jak narzie dzial to dobrze">
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/dto/MatchHistoryDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/MatchScheduler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/MatchSimulator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/MatchHistoryDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_01_2026_01_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_01_2026_01_12__Changes_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/StatsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/MatchStatsDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/TeamStatsHistoryDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/BettingServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/BettingServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/client/OddsGeneratorClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/client/OddsGeneratorClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/repository/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/CsvDataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/CsvDataLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/MatchStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/MatchStats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/OddsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/OddsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/config/BettingDataSeeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/config/BettingDataSeeder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/dto/admin/CreateEventRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/dto/admin/CreateEventRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/BetServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/BetServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/CouponServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/CouponServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/EventServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/betting-service/src/main/java/org/example/service/EventServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/OddsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/OddsGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/OddsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/odds-generator-service/src/main/java/org/example/dto/OddsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/org/example/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,10 +193,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.OddsGeneratorApplication" />
+        <item itemvalue="Spring Boot.UserServiceApplication" />
         <item itemvalue="Spring Boot.BettingServiceApplication" />
         <item itemvalue="Spring Boot.ApiGatewayApplication" />
-        <item itemvalue="Spring Boot.UserServiceApplication" />
+        <item itemvalue="Spring Boot.OddsGeneratorApplication" />
       </list>
     </recent_temporary>
   </component>

@@ -42,7 +42,9 @@ public class EventServiceImpl implements EventService {
 
         //mapping kursow
         List<OddDto> oddDtos = market.getOdds().stream()
-                .map(odd -> new OddDto(odd.getOddId(), odd.getOutcomeName(), odd.getOddValue()))
+                .map(odd -> new OddDto(odd.getOddId(),
+                        odd.getOutcomeName(),
+                        odd.getOddValue()))
                 .collect(Collectors.toList());
 
         dto.setOdds(oddDtos);
