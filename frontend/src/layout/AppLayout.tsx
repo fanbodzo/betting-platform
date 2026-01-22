@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/useTheme";
 import { getBalance } from "../api/userApi";
 import { addBalance, deductBalance } from "../api/balanceApi";
-
+import logoUrl from "../graph/logo.png";
 
 function NavLink({
                      to,
@@ -18,13 +18,16 @@ function NavLink({
         <Link
             to={to}
             style={{
-                textDecoration: "none",
-                padding: "8px 12px",
-                borderRadius: 999,
+                height: 44,
+                display: "flex",
+                alignItems: "center",
+                padding: "0 14px",
+                borderRadius: 12,
                 border: `1px solid ${active ? "transparent" : "var(--border)"}`,
-                background: active ? "var(--primary)" : "transparent",
+                background: active ? "var(--primary)" : "var(--surface-2)",
                 color: active ? "var(--primary-contrast)" : "var(--text)",
                 fontWeight: 700,
+                textDecoration: "none",
             }}
         >
             {label}
@@ -176,26 +179,56 @@ export function AppLayout() {
                     }}
                 >
                     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                        <div
-                            style={{
-                                fontWeight: 900,
-                                letterSpacing: 0.2,
-                                padding: "8px 12px",
-                                borderRadius: 12,
-                                background: "var(--surface-2)",
-                                border: `1px solid var(--border)`,
-                            }}
-                        >
-                            FastBeciki.pl
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            {/* KAFEL LOGO */}
+                            <Link
+                                to="/"
+                                style={{
+                                    height: 44,
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <img
+                                    src={logoUrl}
+                                    alt="FastBeciki"
+                                    style={{
+                                        height: 60,
+                                        width: "auto",
+                                        display: "block",
+                                        padding: "0 10px",
+                                    }}
+                                />
+                            </Link>
+
+                            {/* KAFEL NAZWA */}
+                            <Link
+                                to="/"
+                                style={{
+                                    height: 44,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    padding: "0 16px",
+                                    borderRadius: 12,
+                                    background: "var(--surface-2)",
+                                    border: "1px solid var(--border)",
+                                    fontWeight: 900,
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                FastBeciki.pl
+                            </Link>
                         </div>
+
 
                         <nav style={{ display: "flex", gap: 10, alignItems: "center" }}>
                             {isAdmin && (
                                 <NavLink to="/admin" label="Admin" active={isActive("/admin")} />
                             )}
-                            <NavLink to="/bets" label="Bets" active={isActive("/bets")} />
-                            <NavLink to="/coupon/new" label="New coupon" active={isActive("/coupon")} />
-                            <NavLink to="/profile" label="Profile" active={isActive("/profile")} />
+                            <NavLink to="/bets" label="Kupony" active={isActive("/bets")} />
+                            <NavLink to="/coupon/new" label="Nowy Kupon" active={isActive("/coupon")} />
+                            <NavLink to="/profile" label="Profil" active={isActive("/profile")} />
 
                         </nav>
                     </div>
@@ -204,13 +237,17 @@ export function AppLayout() {
                         {/* SALDO */}
                         <div
                             style={{
+                                height: 44,
                                 display: "flex",
                                 alignItems: "center",
-                                gap: 10,
-                                padding: "8px 12px",
+                                padding: "0 14px",
                                 borderRadius: 12,
                                 border: `1px solid var(--border)`,
                                 background: "var(--surface-2)",
+                                color: "var(--text)",
+                                fontWeight: 800,
+                                cursor: "pointer",
+                                gap: 10,
                             }}
                             title={balanceError ?? ""}
                         >
@@ -240,7 +277,10 @@ export function AppLayout() {
                         <button
                             onClick={onDeposit}
                             style={{
-                                padding: "8px 12px",
+                                height: 44,
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "0 14px",
                                 borderRadius: 12,
                                 border: `1px solid var(--border)`,
                                 background: "var(--surface-2)",
@@ -256,7 +296,10 @@ export function AppLayout() {
                         <button
                             onClick={onWithdraw}
                             style={{
-                                padding: "8px 12px",
+                                height: 44,
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "0 14px",
                                 borderRadius: 12,
                                 border: `1px solid var(--border)`,
                                 background: "var(--surface-2)",
@@ -272,7 +315,10 @@ export function AppLayout() {
                         <button
                             onClick={toggle}
                             style={{
-                                padding: "8px 12px",
+                                height: 44,
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "0 14px",
                                 borderRadius: 12,
                                 border: `1px solid var(--border)`,
                                 background: "var(--surface-2)",
@@ -280,9 +326,9 @@ export function AppLayout() {
                                 fontWeight: 800,
                                 cursor: "pointer",
                             }}
-                            title="Toggle theme"
+                            title="Zmien Tryb"
                         >
-                            {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
+                            {theme === "dark" ? "🌙 Ciemny" : "☀️ Jasny"}
                         </button>
 
 
@@ -290,16 +336,19 @@ export function AppLayout() {
                         <button
                             onClick={onLogout}
                             style={{
-                                padding: "8px 12px",
+                                height: 44,
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "0 14px",
                                 borderRadius: 12,
                                 border: `1px solid var(--border)`,
-                                background: "transparent",
+                                background: "var(--surface-2)",
                                 color: "var(--text)",
                                 fontWeight: 800,
                                 cursor: "pointer",
                             }}
                         >
-                            Logout
+                            Wyloguj się
                         </button>
                     </div>
                 </div>

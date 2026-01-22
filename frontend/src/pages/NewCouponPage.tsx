@@ -146,8 +146,6 @@ export function NewCouponPage() {
         return Number.isFinite(t) ? t : null;
     }
 
-// dateFrom/dateTo są w formacie YYYY-MM-DD z inputa.
-// Żeby "do" działało intuicyjnie, ustawiamy koniec dnia.
     function parseDayStart(day: string): number | null {
         if (!day) return null;
         const t = Date.parse(`${day}T00:00:00`);
@@ -173,19 +171,19 @@ export function NewCouponPage() {
 
         return events
             .map((ev) => {
-                // 1) filtr po nazwie eventu
+
                 if (qNorm && !String(ev.eventName ?? "").toLowerCase().includes(qNorm)) {
                     return null;
                 }
 
-                // 2) filtr po dacie
+
                 const evT = parseIsoDateSafe(String(ev.startTime));
                 if (fromT !== null && evT !== null && evT < fromT) return null;
                 if (toT !== null && evT !== null && evT > toT) return null;
 
-                // 3) filtr po kursach: filtrujemy odds w marketach
+
                 if (!hasMin && !hasMax) {
-                    return ev; // bez filtra kursów – zwracamy jak jest
+                    return ev;
                 }
 
                 const filteredMarkets =
@@ -198,7 +196,6 @@ export function NewCouponPage() {
                             return true;
                         });
 
-                        // jeśli w tym markecie nie zostało żadnego odda -> wywalamy market
                         if (odds.length === 0) return null;
                         return { ...m, odds };
                     }).filter(Boolean) ?? [];
