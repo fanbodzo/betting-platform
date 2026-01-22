@@ -61,7 +61,7 @@ public class UserService {
             throw new IllegalStateException("nie mozna wyplacic mniej niz 1 zloty");
         }
 
-        user.setCashBalance(user.getCashBalance() - amount);
+        user.setCashBalance(Math.round((user.getCashBalance() - amount) * 100.0) / 100.0);
         userRepository.save(user);
 
         return user.getCashBalance();
@@ -76,7 +76,7 @@ public class UserService {
             throw new IllegalStateException("nie mozna wplacic mniej niz 1 zloty");
         }
 
-        user.setCashBalance(user.getCashBalance() + amount);
+        user.setCashBalance(Math.round((user.getCashBalance() + amount )* 100.0) / 100.0);
         userRepository.save(user);
 
         return user.getCashBalance();

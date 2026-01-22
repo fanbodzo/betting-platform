@@ -64,6 +64,7 @@ public class CouponServiceImpl implements CouponService {
         double totalOdd = coupon.getSelections().stream()
                 .mapToDouble(BetSelectionDto::getOddValue)
                 .reduce(1.0, (a, b) -> a * b);
-        coupon.setTotalOdd(totalOdd);
+
+        coupon.setTotalOdd(Math.round(totalOdd * 100.0) / 100.0);
     }
 }

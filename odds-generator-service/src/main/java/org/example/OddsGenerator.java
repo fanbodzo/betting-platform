@@ -80,8 +80,7 @@ public class OddsGenerator {
         double odd1 = probHome > 0 ? (1.0 / probHome) * margin : 1.0;
         double oddX = probDraw > 0 ? (1.0 / probDraw) * margin : 1.0;
         double odd2 = probAway > 0 ? (1.0 / probAway) * margin : 1.0;
-
-        return new double[]{odd1, oddX, odd2};
+        return new double[]{(Math.round(odd1 * 100.0) / 100.0), (Math.round(oddX * 100.0) / 100.0), (Math.round(odd2 * 100.0) / 100.0)};
     }
 
     // Matematyka: Rozkład Poissona

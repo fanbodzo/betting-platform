@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.client.OddsGeneratorClient;
 import org.example.dto.admin.CreateEventRequest;
@@ -63,7 +64,7 @@ public class AdminController {
     }
 
     @PostMapping("/events/create-auto")
-    public ResponseEntity<Event> createEventAuto(@RequestBody CreateEventRequest request) {
+    public ResponseEntity<Event> createEventAuto(@Valid @RequestBody CreateEventRequest request) {
 
         //parsownanie nazw
         String[] teams = request.eventName().split(" vs ");
@@ -76,13 +77,15 @@ public class AdminController {
         Map<String, Double> odds = oddsGeneratorClient.generateOdds(genRequest);
 
         //zapis tego meczu
-        CreateEventRequest fullRequest = new CreateEventRequest(
-                39, //ustawiam na szytwo zeby przeszlo
-                request.eventName(),
-                request.startTime()
-        );
+        Event event = offerManagementService.createEvent(request);
+        //zostawiam legacy do testu
+//        CreateEventRequest fullRequest = new CreateEventRequest(
+//                39, //ustawiam na szytwo zeby przeszlo
+//                request.eventName(),
+//                request.startTime()
+//        );
 
-        Event event = offerManagementService.createEvent(fullRequest);
+        //Event event = offerManagementService.createEvent(fullRequest);
 
         //zapis rynku
         Market market = offerManagementService.createMarket(event.getId(), new CreateMarketRequest("Match Winner"));

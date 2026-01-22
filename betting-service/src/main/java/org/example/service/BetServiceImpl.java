@@ -8,20 +8,18 @@ import org.example.dto.BetHistoryDto;
 import org.example.dto.BetHistorySelectionDto;
 import org.example.dto.BetSelectionDto;
 import org.example.dto.event.BetPlacedEvent;
-import org.example.entity.Bet;
-import org.example.entity.BetSelection;
-import org.example.entity.Market;
-import org.example.entity.Odd;
+import org.example.entity.*;
 import org.example.entity.enums.BetStatus;
+import org.example.entity.enums.EventStatus;
 import org.example.repository.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +38,7 @@ public class BetServiceImpl implements BetService {
     @Transactional
     public void placeBet(Long userId , Double stake){
         BetCouponDto coupon = couponService.getCoupon(userId);
+        Set<Long> eventIds = new HashSet<>();
 
         if(coupon.getSelections().isEmpty()){
             throw new IllegalStateException("Nie mozna postawic zakladu poniewaz kupon jest pusty");
@@ -55,8 +54,8 @@ public class BetServiceImpl implements BetService {
         //postawienie kuponu
         Bet newBet = Bet.builder()
                 .stake(stake)
-                .totalOdd(coupon.getTotalOdd())
-                .potentialPayout(coupon.getTotalOdd()*stake)
+                .totalOdd(Math.round((coupon.getTotalOdd()) * 100.0) / 100.0)
+                .potentialPayout(Math.round((coupon.getTotalOdd()*stake) * 100.0) / 100.0)
                 .betStatus(BetStatus.PENDING)
                 .userId(userId)
                 .build();
@@ -72,6 +71,16 @@ public class BetServiceImpl implements BetService {
             Market market = marketRepository.findById(selectionDto.getMarketId())
                     .orElseThrow(() -> new IllegalStateException("Rynek o ID " + selectionDto.getMarketId() + " zniknął w trakcie obstawiania!"));
 
+            Event event = market.getEvent();
+            if (event.getEventStatus() != EventStatus.UPCOMING) {
+                throw new IllegalStateException("Nie można obstawić meczu '" + event.getEventName() + "', ponieważ już się rozpoczął lub zakończył!");
+            }
+
+            if (eventIds.contains(event.getId())) {
+                throw new IllegalStateException("Nie możesz obstawić tego samego meczu wielokrotnie na jednym kuponie!");
+            }
+            eventIds.add(event.getId());
+
             BetSelection betSelection = BetSelection.builder()
                     .bet(savedBet)
                     .oddValueAtBetTime(selectionDto.getOddValue())
@@ -86,17 +95,6 @@ public class BetServiceImpl implements BetService {
                 new BetPlacedEvent(userId, savedBet.getBetId(), stake, LocalDateTime.now()));
 
         userClient.deductBalance(userId, stake);
-
-        //transakcja
-//        Transaction transaction = Transaction.builder()
-//               // .user(user)
-//                .transactionType(TransactionType.BET_PLACEMENT)
-//                .amount(stake)
-//                .relatedBet(savedBet)
-//                .createdAt(LocalDateTime.now())
-//                .build();
-//
-//        transactionRepository.save(transaction);
 
         couponService.clearCoupon(userId);
 
