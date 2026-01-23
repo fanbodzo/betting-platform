@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../theme/useTheme";
 import { getBalance } from "../api/userApi";
 import { addBalance, deductBalance } from "../api/balanceApi";
-import logoUrl from "../graph/logo.png";
+import logoUrl from "../graph/logo6.png";
 
 function NavLink({
                      to,
@@ -183,10 +183,17 @@ export function AppLayout() {
                             {/* KAFEL LOGO */}
                             <Link
                                 to="/"
+                                className="logoLink"
                                 style={{
                                     height: 44,
                                     display: "flex",
                                     alignItems: "center",
+                                    padding: "0 10px",
+                                    background: "transparent",
+                                    border: "1px solid transparent",
+                                    boxShadow: "none",
+                                    borderRadius: "0",
+                                    textDecoration: "none",
                                 }}
                             >
                                 <img
@@ -196,7 +203,6 @@ export function AppLayout() {
                                         height: 60,
                                         width: "auto",
                                         display: "block",
-                                        padding: "0 10px",
                                     }}
                                 />
                             </Link>
@@ -229,6 +235,7 @@ export function AppLayout() {
                             <NavLink to="/bets" label="Kupony" active={isActive("/bets")} />
                             <NavLink to="/coupon/new" label="Nowy Kupon" active={isActive("/coupon")} />
                             <NavLink to="/profile" label="Profil" active={isActive("/profile")} />
+                            <NavLink to="/stats" label="Statystyki" active={isActive("/stats")} />
 
                         </nav>
                     </div>

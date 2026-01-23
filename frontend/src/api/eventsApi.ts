@@ -32,6 +32,7 @@ export async function getEvents(status: EventStatus) {
 export type CreateEventRequest = {
     eventName: string;
     startTime: string; // np. "2026-01-11T17:30:00"
+    sportId: number;
 };
 
 export async function adminCreateEvent(payload: CreateEventRequest) {

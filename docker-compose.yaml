@@ -39,8 +39,8 @@ services:
       - "3000:3000"
     command: sh -c "npm install && npm run dev -- --host"
     environment:
-      - WATCHPACK_POLLING=true
-
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=100
 volumes:
   postgres-data:
     driver: local

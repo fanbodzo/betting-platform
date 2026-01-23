@@ -9,6 +9,7 @@ import { AdminRoute } from "./auth/AdminRoute";
 import { AdminPage } from "./pages/AdminPage";
 import { ScrollToTop } from "./routing/ScrollToTop.tsx";
 import { RegisterPage } from "./pages/RegisterPage.tsx";
+import TeamStatsPage from "./pages/TeamStatsPage";
 import "./styles/theme.css";
 
 function App() {
@@ -39,7 +40,7 @@ function App() {
                     <Route path="/bets" element={<BetsPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/coupon/new" element={<NewCouponPage />} />
-
+                    <Route path="/stats" element={<TeamStatsPage />} />
                     <Route
                         path="/admin"
                         element={
