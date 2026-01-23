@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: "http://74.249.43.156:9000",
 });
 
 apiClient.interceptors.request.use((config) => {
