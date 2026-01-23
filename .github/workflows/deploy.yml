@@ -56,7 +56,7 @@ jobs:
       - name: Build and push Odd Generator
         uses: docker/build-push-action@v5
         with:
-          context: ./odd-generator-service
-          file: ./odd-generator-service/Dockerfile 
+          context: ./odds-generator-service
+          file: ./odds-generator-service/Dockerfile 
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/betting-odd-generator:latest
