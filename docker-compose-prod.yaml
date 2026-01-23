@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # --- BAZY DANYCH ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: prod_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: bettingDb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: prod_redis
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: prod_rabbitmq
+    restart: always
+    ports:
+      - "15672:15672" # Panel (zabezpiecz firewallem na Azure!)
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASS}
+
+  # --- APLIKACJE ---
+  
+  user-service:
+    image: ${DOCKER_USERNAME}/betting-user-service:latest
+    container_name: prod_user_service
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/user_service_db
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_RABBITMQ_PASSWORD: ${RABBIT_PASS}
+      JWT_SECRET_KEY: ${JWT_SECRET}
+    depends_on:
+      - postgres
+      - rabbitmq
+
+  betting-service:
+    image: ${DOCKER_USERNAME}/betting-betting-service:latest
+    container_name: prod_betting_service
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/betting_service_db
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_RABBITMQ_PASSWORD: ${RABBIT_PASS}
+      SPRING_DATA_REDIS_HOST: redis
+      JWT_SECRET_KEY: ${JWT_SECRET}
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+
+  odds-generator:
+    image: ${DOCKER_USERNAME}/betting-odds-generator:latest
+    container_name: prod_odds_generator
+    restart: always
+
+    environment:
+       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/odds_service_db
+       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+
+  api-gateway:
+    image: ${DOCKER_USERNAME}/betting-api-gateway:latest
+    container_name: prod_api_gateway
+    restart: always
+    ports:
+      - "9000:9000"
+     environment:
+      USER_SERVICE_URI: http://user-service:8081 
+      BETTING_SERVICE_URI: http://betting-service:8080
+      ODDS_SERVICE_URI: http://odds-generator:8080
+    depends_on:
+      - user-service
+      - betting-service
+      - odds-generator
+
+  frontend:
+    image: ${DOCKER_USERNAME}/betting-frontend:latest
+    container_name: prod_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
