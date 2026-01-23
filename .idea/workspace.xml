@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db20e4a7-0ae7-491d-94d6-327f70865fdb" name="Changes" comment="dodanie nowego mikroserwisu z działającym generowaniem kursów , dodac musze autoamtyczne rozliczanie zakladow i dodwanie statystyk do nwoej bazy ale jak narzie dzial to dobrze">
+    <list default="true" id="db20e4a7-0ae7-491d-94d6-327f70865fdb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-gateway/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/betting-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/odds-generator-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-service/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,9 +20,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="Class" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -31,12 +36,22 @@
     &quot;assignee&quot;: &quot;fanbodzo&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/fanbodzo/betting-platform",
-    "accountId": "d7358827-7ffb-4c08-b65a-9c2f59630231"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/fanbodzo/betting-platform.git&quot;,
+    &quot;accountId&quot;: &quot;101d4a45-31be-456b-8b68-95f2eabdf762&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;fanbodzo&quot;,
+    &quot;repository&quot;: &quot;betting-platform&quot;
   }
-}]]></component>
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -49,41 +64,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.odds-generator-service [clean].executor": "Run",
-    "Maven.user-service [clean].executor": "Run",
-    "Maven.user-service [install].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.ApiGatewayApplication.executor": "Run",
-    "Spring Boot.BettingServiceApplication (1).executor": "Run",
-    "Spring Boot.BettingServiceApplication.executor": "Run",
-    "Spring Boot.OddsGeneratorApplication.executor": "Run",
-    "Spring Boot.UserServiceApplication.executor": "Run",
-    "git-widget-placeholder": "frontend-dev",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/JAVA/betting-platform/odds-generator-service/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "D:/JAVA/betting-platform/odds-generator-service/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.49885058",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors",
-    "settings.editor.splitter.proportion": "0.3058104",
-    "ts.external.directory.path": "A:\\ProjektBukmacher\\frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.odds-generator-service [clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ApiGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.BettingServiceApplication (1).executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.BettingServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.OddsGeneratorApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;backend-dev&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/JAVA/betting-platform/odds-generator-service/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;D:/JAVA/betting-platform/odds-generator-service/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.49885058&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.3058104&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;A:\\ProjektBukmacher\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -92,7 +105,6 @@
       <recent name="D:\JAVA\betting-platform\odds-generator-service\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="A:\ProjektBukmacher\frontend\src\graph" />
       <recent name="D:\JAVA\betting-platform\global-resources" />
     </key>
   </component>
@@ -105,8 +117,22 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
+    <option name="configurationStatuses">
+      <map>
+        <entry key="SpringBootApplicationConfigurationType">
+          <value>
+            <map>
+              <entry key="ApiGatewayApplication" value="STOPPED" />
+              <entry key="BettingServiceApplication" value="STOPPED" />
+              <entry key="OddsGeneratorApplication" value="STOPPED" />
+              <entry key="UserServiceApplication" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.BettingServiceApplication">
+  <component name="RunManager" selected="Spring Boot.OddsGeneratorApplication">
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="api-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.ApiGatewayApplication" />
@@ -120,11 +146,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BettingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <option name="ALTERNATIVE_JRE_PATH" value="23" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <configuration name="BettingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="betting-service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.BettingServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -145,7 +176,7 @@
     </configuration>
     <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="user-service" />
+      <module name="user-service (1)" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.UserServiceApplication" />
       <extension name="coverage">
         <pattern>
@@ -158,15 +189,16 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Spring Boot.BettingServiceApplication" />
       <item itemvalue="Spring Boot.OddsGeneratorApplication" />
       <item itemvalue="Spring Boot.ApiGatewayApplication" />
+      <item itemvalue="Spring Boot.BettingServiceApplication" />
       <item itemvalue="Spring Boot.UserServiceApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.OddsGeneratorApplication" />
         <item itemvalue="Spring Boot.ApiGatewayApplication" />
+        <item itemvalue="Spring Boot.OddsGeneratorApplication" />
+        <item itemvalue="Spring Boot.BettingServiceApplication" />
         <item itemvalue="Spring Boot.UserServiceApplication" />
       </list>
     </recent_temporary>
@@ -174,8 +206,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
-        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.26830.84" />
       </set>
     </attachedChunks>
   </component>
@@ -191,7 +223,8 @@
       <workItem from="1768481308967" duration="11781000" />
       <workItem from="1768578022914" duration="8924000" />
       <workItem from="1769004841747" duration="4244000" />
-      <workItem from="1769154239251" duration="10878000" />
+      <workItem from="1769120104600" duration="1618000" />
+      <workItem from="1769124753507" duration="2820000" />
     </task>
     <task id="LOCAL-00001" summary="popraweczka zebym mogl odpalic">
       <option name="closed" value="true" />
@@ -209,7 +242,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768590472739</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="dodanie walidacji stawainia kuponu, dodanie zaokrąglen , dodanie walidacji kuponu zablokowanie mozliwosci stawiania dwoch tych samych zadarzen oraz zdarzen po terminie , endpoint na statystyki">
+      <option name="closed" value="true" />
+      <created>1769117285660</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1769117285660</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,6 +273,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="popraweczka zebym mogl odpalic" />
     <MESSAGE value="dodanie nowego mikroserwisu z działającym generowaniem kursów , dodac musze autoamtyczne rozliczanie zakladow i dodwanie statystyk do nwoej bazy ale jak narzie dzial to dobrze" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodanie nowego mikroserwisu z działającym generowaniem kursów , dodac musze autoamtyczne rozliczanie zakladow i dodwanie statystyk do nwoej bazy ale jak narzie dzial to dobrze" />
+    <MESSAGE value="dodanie walidacji stawainia kuponu, dodanie zaokrąglen , dodanie walidacji kuponu zablokowanie mozliwosci stawiania dwoch tych samych zadarzen oraz zdarzen po terminie , endpoint na statystyki" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodanie walidacji stawainia kuponu, dodanie zaokrąglen , dodanie walidacji kuponu zablokowanie mozliwosci stawiania dwoch tych samych zadarzen oraz zdarzen po terminie , endpoint na statystyki" />
   </component>
 </project>
