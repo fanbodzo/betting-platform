@@ -21,39 +21,40 @@ spring:
 
       # Definicja tras (Routes)
       routes:
-        # --- Trasy do USER-SERVICE (8081) ---
+        # --- Trasy do USER-SERVICE ---
         - id: user-service-auth
-          uri: http://localhost:8081
+          uri: ${USER_SERVICE_URI:http://localhost:8081} 
           predicates:
             - Path=/api/auth/**
 
         - id: user-service-users
-          uri: http://localhost:8081
+          uri: ${USER_SERVICE_URI:http://localhost:8081}
           predicates:
             - Path=/api/v1/users/**
 
-        # --- Trasy do BETTING-SERVICE (8080) ---
+        # --- Trasy do BETTING-SERVICE ---
         - id: betting-service-events
-          uri: http://localhost:8080
+          uri: ${BETTING_SERVICE_URI:http://localhost:8080}
           predicates:
             - Path=/api/v1/events/**
 
         - id: betting-service-bets
-          uri: http://localhost:8080
+          uri: ${BETTING_SERVICE_URI:http://localhost:8080}
           predicates:
             - Path=/api/v1/bets/**
 
         - id: betting-service-coupons
-          uri: http://localhost:8080
+          uri: ${BETTING_SERVICE_URI:http://localhost:8080}
           predicates:
             - Path=/api/v1/coupon/**
 
         - id: betting-service-admin
-          uri: http://localhost:8080
+          uri: ${BETTING_SERVICE_URI:http://localhost:8080}
           predicates:
             - Path=/api/v1/admin/**
 
+        # --- Trasy do ODDS-GENERATOR ---
         - id: odds-generator-stats
-          uri: http://localhost:8082
+          uri: ${ODDS_SERVICE_URI:http://localhost:8082}
           predicates:
               - Path=/api/v1/generator/stats/**
