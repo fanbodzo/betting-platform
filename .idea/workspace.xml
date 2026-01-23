@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db20e4a7-0ae7-491d-94d6-327f70865fdb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.github/workflows/deploy.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api-gateway/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/betting-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/odds-generator-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="db20e4a7-0ae7-491d-94d6-327f70865fdb" name="Changes" comment="dodanie dockerfiles przygotowanie pod azure" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -250,7 +243,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769117285660</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="dodanie dockerfiles przygotowanie pod azure">
+      <option name="closed" value="true" />
+      <created>1769167427033</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1769167427033</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,6 +275,7 @@
     <MESSAGE value="popraweczka zebym mogl odpalic" />
     <MESSAGE value="dodanie nowego mikroserwisu z działającym generowaniem kursów , dodac musze autoamtyczne rozliczanie zakladow i dodwanie statystyk do nwoej bazy ale jak narzie dzial to dobrze" />
     <MESSAGE value="dodanie walidacji stawainia kuponu, dodanie zaokrąglen , dodanie walidacji kuponu zablokowanie mozliwosci stawiania dwoch tych samych zadarzen oraz zdarzen po terminie , endpoint na statystyki" />
-    <option name="LAST_COMMIT_MESSAGE" value="dodanie walidacji stawainia kuponu, dodanie zaokrąglen , dodanie walidacji kuponu zablokowanie mozliwosci stawiania dwoch tych samych zadarzen oraz zdarzen po terminie , endpoint na statystyki" />
+    <MESSAGE value="dodanie dockerfiles przygotowanie pod azure" />
+    <option name="LAST_COMMIT_MESSAGE" value="dodanie dockerfiles przygotowanie pod azure" />
   </component>
 </project>
