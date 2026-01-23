@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginApi, registerApi, type RegisterRequest } from "../api/authApi";
 import { getUsers } from "../api/userApi";
 import { useTheme } from "../theme/useTheme";
-import logo from "../graph/logo.png";
+import logo from "../graph/logo6.png";
 
 function isEmail(v: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);

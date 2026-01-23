@@ -10,6 +10,7 @@ import { getUsers, getBalance } from "../api/userApi";
 import { getBets } from "../api/betsApi";
 import { settleMarket } from "../api/adminApi";
 import { EventCard } from "../components/EventCard";
+import {formatDateTime} from "../utils/date.ts";
 
 type Tab = "CREATE" | "DELETE" | "USERS" | "SETTLE";
 
@@ -62,17 +63,18 @@ function TabButton({
 export function AdminPage() {
     const [tab, setTab] = useState<Tab>("CREATE");
 
-    // ---- EVENTS: shared state
+
     const [status, setStatus] = useState<EventStatus>("UPCOMING");
     const [events, setEvents] = useState<EventDto[]>([]);
     const [loadingEvents, setLoadingEvents] = useState(false);
     const [eventsErr, setEventsErr] = useState<string | null>(null);
 
-    // CREATE (auto): wybór drużyn zamiast ręcznego eventName
+    // wybór drużyn zamiast ręcznego eventName
     const [homeTeam, setHomeTeam] = useState("");
     const [awayTeam, setAwayTeam] = useState("");
     const [startTime, setStartTime] = useState(""); // input datetime-local
     const [creating, setCreating] = useState(false);
+    const [sportId, setSportId] = useState<string>("1");
 
     // ---- DELETE EVENT (double confirm)
     const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -89,63 +91,63 @@ export function AdminPage() {
 
 
 
+
     // NA SZTYWNO (na start)
     const TEAMS = [
-        "Chelsea",
-        "Mallorca",
+        "Alavés",
+        "Almería",
+        "Arsenal",
+        "Aston Villa",
+        "Athletic Club",
+        "Atlético Madrid",
+        "Barcelona",
+        "Betis",
         "Bournemouth",
-        "Burnley",
-        "Everton",
-        "Las Palmas",
-        "West Ham",
-        "Luton Town",
-        "Eibar",
-        "Huesca",
-        "Real Sociedad",
-        "Granada",
-        "Getafe",
-        "West Brom",
-        "Real Madrid",
-        "Manchester City",
-        "Manchester Utd",
-        "Villarreal",
-        "Osasuna",
-        "Fulham",
         "Brentford",
+        "Brighton",
+        "Burnley",
+        "Cádiz",
+        "Celta Vigo",
+        "Chelsea",
+        "Crystal Palace",
+        "Eibar",
+        "Elche",
+        "Espanyol",
+        "Everton",
+        "Fulham",
+        "Getafe",
+        "Girona",
+        "Granada",
+        "Huesca",
+        "Ipswich Town",
+        "Las Palmas",
+        "Leeds United",
+        "Leganés",
         "Leicester City",
         "Levante",
-        "Ipswich Town",
-        "Valladolid",
-        "Leganés",
-        "Brighton",
-        "Almería",
+        "Liverpool",
+        "Luton Town",
+        "Mallorca",
+        "Manchester City",
+        "Manchester Utd",
+        "Newcastle Utd",
         "Norwich City",
-        "Athletic Club",
+        "Osasuna",
+        "Rayo Vallecano",
+        "Real Madrid",
+        "Real Sociedad",
+        "Sevilla",
         "Sheffield Utd",
-        "Wolves",
-        "Betis",
-        "Barcelona",
-        "Celta Vigo",
+        "Southampton",
         "Tottenham",
         "Valencia",
-        "Cádiz",
-        "Aston Villa",
-        "Elche",
-        "Rayo Vallecano",
-        "Espanyol",
-        "Sevilla",
-        "Girona",
-        "Newcastle Utd",
-        "Liverpool",
-        "Crystal Palace",
-        "Arsenal",
-        "Atlético Madrid",
-        "Leeds United",
-        "Alavés",
+        "Valladolid",
+        "Villarreal",
         "Watford",
-        "Southampton"
+        "West Brom",
+        "West Ham",
+        "Wolves",
     ];
-
 
 
     // default startTime = now + 1h
@@ -275,7 +277,6 @@ export function AdminPage() {
     }
 
     async function createAutoEvent() {
-        // aliasy nazw -> to co generator lubi (dopisz swoje)
         const TEAM_ALIASES: Record<string, string> = {
             "Barca": "Barcelona",
             "Atlético": "Atletico Madrid",
@@ -303,15 +304,22 @@ export function AdminPage() {
             return;
         }
 
-        const eventName = `${home} vs ${away}`; // <-- format wymagany przez backend
+        const eventName = `${home} vs ${away}`;
 
         setCreating(true);
         setEventsErr(null);
 
+        const sportIdNum = Number(sportId);
+
+        if (!Number.isFinite(sportIdNum) || sportIdNum <= 0) {
+            setEventsErr("sportId musi być liczbą > 0.");
+            return;
+        }
         try {
             await adminCreateEvent({
                 eventName,
                 startTime: toBackendLocalDateTime(startTime.trim()),
+                sportId: sportIdNum,
             });
 
             setHomeTeam("");
@@ -725,6 +733,22 @@ export function AdminPage() {
                                 ))}
                             </select>
 
+                            <select
+                                value={sportId}
+                                onChange={(e) => setSportId(e.target.value)}
+                                style={{
+                                    width: 160,
+                                    padding: "10px 12px",
+                                    borderRadius: 12,
+                                    border: "1px solid var(--border)",
+                                    background: "var(--surface-2)",
+                                    color: "var(--text)",
+                                }}
+                            >
+                                <option value="1">Football (1)</option>
+                                <option value="2">Basketball (2)</option>
+                            </select>
+
                             <input
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
@@ -747,7 +771,8 @@ export function AdminPage() {
                                     !homeTeam ||
                                     !awayTeam ||
                                     homeTeam.toLowerCase() === awayTeam.toLowerCase() ||
-                                    !startTime
+                                    !startTime ||
+                                    !sportId.trim()
                                 }
                                 style={{
                                     padding: "10px 12px",
@@ -809,7 +834,7 @@ export function AdminPage() {
                                         {ev.eventName}
                                     </div>
                                     <div style={{ fontSize: 12, color: "var(--muted)" }}>
-                                        eventId: <b style={{ color: "var(--text)" }}>{ev.eventId}</b> • start: {String(ev.startTime)}
+                                        start: {formatDateTime(String(ev.startTime))}
                                     </div>
                                 </div>
 

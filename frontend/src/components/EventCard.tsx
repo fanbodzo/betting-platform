@@ -1,4 +1,5 @@
 import type {EventDto} from "../api/eventsApi";
+import {formatDateTime} from "../utils/date.ts";
 
 type OddActionMode = "BET" | "SETTLE";
 
@@ -41,9 +42,8 @@ export function EventCard({
                     <div style={{ fontWeight: 900, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {event.eventName}
                     </div>
-                    <div style={{ fontSize: 12, color: "var(--muted)" }}>{event.startTime}</div>
+                    <div style={{ fontSize: 12, color: "var(--muted)" }}>{formatDateTime(event.startTime)}</div>
                 </div>
-                <div style={{ fontSize: 12, color: "var(--muted)" }}>eventId: {event.eventId}</div>
             </div>
 
             {/* MARKETY */}
@@ -52,10 +52,12 @@ export function EventCard({
                     {event.markets.map((m) => (
                         <div key={m.marketId}>
                             <div style={{ fontWeight: 800, marginBottom: 8 }}>
-                                {m.marketName}{" "}
-                                <span style={{ fontWeight: 600, color: "var(--muted)" }}>
-                  (marketId: {m.marketId})
-                </span>
+                                {m.marketName}
+                                {mode === "SETTLE" && (
+                                    <span style={{ fontWeight: 600, color: "var(--muted)" }}>
+                                        {" "} (marketId: {m.marketId})
+                                    </span>
+                                )}
                             </div>
 
                             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>

@@ -212,7 +212,6 @@ export function NewCouponPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "baseline" }}>
                 <h1 style={{ margin: 0 }}>New coupon</h1>
-                <div style={{ fontSize: 12, color: "var(--muted)" }}>userId: {userId}</div>
             </div>
 
             {/* GRID*/}
@@ -440,7 +439,7 @@ export function NewCouponPage() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
                         <h2 style={{ margin: 0 }}>Kupon</h2>
                         <div style={{ fontSize: 12, color: "var(--muted)" }}>
-                            {coupon ? `Selections: ${coupon.numberOfSelections}` : "—"}
+                            {coupon ? `Ilosc wybranych zdarzeń: ${coupon.numberOfSelections}` : "—"}
                         </div>
                     </div>
 
@@ -521,7 +520,7 @@ export function NewCouponPage() {
                         ) : coupon ? (
                             <>
                                 <div style={{ fontSize: 13, color: "var(--muted)", marginBottom: 8 }}>
-                                    Total odd: <b style={{ color: "var(--text)" }}>{coupon.totalOdd}</b>
+                                    Kurs: <b style={{ color: "var(--text)" }}>{coupon.totalOdd}</b>
                                 </div>
 
                                 {coupon.selections.length === 0 ? (
@@ -536,7 +535,6 @@ export function NewCouponPage() {
                                                 </div>
                                                 <div style={{ fontSize: 13 }}>
                                                     Odd: <b>{s.oddValue}</b>{" "}
-                                                    <span style={{ color: "var(--muted)" }}>(oddId: {s.oddId})</span>
                                                 </div>
                                             </li>
                                         ))}

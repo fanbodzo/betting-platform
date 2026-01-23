@@ -4,7 +4,7 @@ import { loginApi } from "../api/authApi";
 import { getUsers } from "../api/userApi";
 import { useTheme } from "../theme/useTheme";
 import { Link } from "react-router-dom";
-import  logo  from "../graph/logo.png";
+import  logo  from "../graph/logo6.png";
 
 export function LoginPage() {
     const [email, setEmail] = useState("");
