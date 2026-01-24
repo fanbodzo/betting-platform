@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "user-service", url = "http://localhost:8081/api/v1/users",configuration = FeignConfig.class)
+@FeignClient(name = "user-service", url = "${USER_SERVICE_URI:http://localhost:8081}/api/v1/users", configuration = FeignConfig.class)
 public interface UserClient {
 
     @GetMapping("/{userId}/balance")
