@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
-@FeignClient(name = "odds-generator-service", url = "http://localhost:8082/api/v1/generator",configuration = FeignConfig.class)
+@FeignClient(name = "odds-generator-service", url = "${ODDS_SERVICE_URI:http://localhost:8082}/api/v1/generator")
 public interface OddsGeneratorClient {
 
     @PostMapping("/predict")
