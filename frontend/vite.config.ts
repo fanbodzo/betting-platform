@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000, // Twój port frontu
     proxy: {
       '/api': {
-        target: 'http://host.docker.internal:9000', // <-- Adres Gatewaya
+        target: 'http://api-gateway:9000', // <-- Adres Gatewaya
         changeOrigin: true,
         secure: false,
       },
